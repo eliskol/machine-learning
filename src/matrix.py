@@ -82,6 +82,18 @@ class Matrix:
 
 
         return Matrix(output_matrix)
+    
+    def crop_matrix(self, j):
+        cropped_rows = list(self.rows)
+        del cropped_rows[0]
+        for row in cropped_rows:
+            del row[j]
+        return Matrix(cropped_rows)
+
+
+
+    # def calc_determinant(self):
+
 
 
 
@@ -93,3 +105,5 @@ test = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 
 test1 = Matrix([[1, 1], [1, 1], [1, 1]])
 test2 = Matrix([[2, 2], [2, 2], [2, 2]])
+print(test.crop_matrix(2).rows)
+print(test.rows)
