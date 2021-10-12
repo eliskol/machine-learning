@@ -193,11 +193,20 @@ class Matrix:
                     mutable_matrix.scale_row(row_index, 1/mutable_matrix.rows[row_index][col_index])
                 mutable_matrix.clear_above(row_index, col_index)
                 mutable_matrix.clear_below(row_index, col_index)
-                print(mutable_matrix.rows)
+                # print(mutable_matrix.rows)
 
                 row_index += 1
         return mutable_matrix
         
+
+    def create_identity(self):
+        identity_rows = []
+
+        for i in range(0, self.num_rows):
+            identity_rows.append([0 for col in range(0, self.num_cols)])
+            identity_rows[i][i] = 1
+        
+        return Matrix(identity_rows)
 
     def augment_matrix(self, matrix_to_augment):
         if self.num_rows != matrix_to_augment.num_rows: return "invalid dimensions"
@@ -210,13 +219,41 @@ class Matrix:
         return mutable_matrix
 
 
+    def cut_matrix(self):
+
+        mutable_matrix = self.copy()
+        for i in range(0, self.num_rows):
+            for j in range(0, int(self.num_cols/2)):
+                mutable_matrix.rows[i].pop(j)
+                # print(mutable_matrix.rows[i])
+        return mutable_matrix
+
+
+    def inverse(self):
+
+        if self.num_cols != self.num_rows: return "invalid dimensions, need square matrix"
+
+        mutable_matrix = self.copy()
+
+        identity_matrix = mutable_matrix.create_identity()
+
+        augmented_matrix = mutable_matrix.augment_matrix(identity_matrix)
+
+        rref_augmented = augmented_matrix.rref()
+
+        inverse = rref_augmented.cut_matrix()
+
+        # print(inverse.rows)
+        return inverse
+
+
 
 
 test = Matrix([[1, 2, 3], [15, 5, 6], [15, 0, 9], [10, 698, 19]])
-test.rref().print()
+# test.rref().print()
 
 bru = Matrix([[2, 2], [1, 1]])
-bru.rref().print()
+
 
 test1 = Matrix([[1, 1], [1, 1], [1, 1]])
 test2 = Matrix([[2, 2], [2, 2], [2, 2]])
@@ -224,4 +261,7 @@ test2 = Matrix([[2, 2], [2, 2], [2, 2]])
 wide_matrix = Matrix([[1, 4, 7, 9, 12], [1, 765, 12, 90, 12], [76, 5, 123, 745, 89]])
 
 j_matrix = Matrix([[4, 2, 2, 2, 3], [4, 2, 2, 2, 1]])
-j_matrix.rref().print()
+# j_matrix.rref().print()
+
+test_3 = Matrix([[1, 3, 5], [7, 3, 1], [8, 16, 7]])
+e = test_3.inverse()
