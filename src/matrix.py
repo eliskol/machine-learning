@@ -1,5 +1,5 @@
-import sys
-sys.path.append('../')
+# import sys
+# sys.path.append('../')
 
 
 class Matrix:
@@ -128,7 +128,6 @@ class Matrix:
         for i, row in enumerate(self.rows):
             if self.find_index_of_first_nonzero_of_row(i) == j:
                 return i
-            
 
 
     def swap_rows(self, a, b):
@@ -137,13 +136,13 @@ class Matrix:
 
     
     def scale_row(self, i, s):
-        print('scaling row with index ' + str(i))
+        # print('scaling row with index ' + str(i))
         for col_index in range(0, self.num_cols):
             self.rows[i][col_index] *= s
 
     def clear_above(self, i, j):
         if i != 0:
-            print('clearing above row with index ' + str(i))
+            # print('clearing above row with index ' + str(i))
             for l in range(0, i):
 
                 scalar = self.rows[l][j]
@@ -161,7 +160,7 @@ class Matrix:
 
 
     def clear_below(self, i, j):
-        print('clearing below row with index ' + str(i) + ', j = ' + str(j))
+        # print('clearing below row with index ' + str(i) + ', j = ' + str(j))
 
         if i != self.num_rows-1:
 
@@ -245,11 +244,11 @@ class Matrix:
         rref_augmented = augmented_matrix.rref()
 
         if rref_augmented.cut_matrix("right").rows != self.create_identity().rows:
+            print("no inverse")
             return "no inverse"
 
         inverse = rref_augmented.cut_matrix("left")
 
-        # print(inverse.rows)
         return inverse
 
 
@@ -269,5 +268,5 @@ wide_matrix = Matrix([[1, 4, 7, 9, 12], [1, 765, 12, 90, 12], [76, 5, 123, 745, 
 j_matrix = Matrix([[4, 2, 2, 2, 3], [4, 2, 2, 2, 1]])
 # j_matrix.rref().print()
 
-test_3 = Matrix([[1, 3, 5], [7, 3, 1], [1, 3, 5]])
-print(test_3.inverse())
+test_3 = Matrix([[1, 3, 5], [7, 3, 1], [1, 4, 5]])
+test_3.inverse().print()
