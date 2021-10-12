@@ -224,8 +224,7 @@ class Matrix:
         mutable_matrix = self.copy()
         for i in range(0, self.num_rows):
             for j in range(0, int(self.num_cols/2)):
-                mutable_matrix.rows[i].pop(j)
-                # print(mutable_matrix.rows[i])
+                del mutable_matrix.rows[i][0]
         return mutable_matrix
 
 
@@ -264,4 +263,4 @@ j_matrix = Matrix([[4, 2, 2, 2, 3], [4, 2, 2, 2, 1]])
 # j_matrix.rref().print()
 
 test_3 = Matrix([[1, 3, 5], [7, 3, 1], [8, 16, 7]])
-e = test_3.inverse()
+test_3.inverse().print()
