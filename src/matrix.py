@@ -9,7 +9,7 @@ class Matrix:
         self.rows = rows
         self.num_cols = len(self.rows[0])
         self.num_rows = len(self.rows)
-        self.is_square = self.new_rows == self.num_cols
+        self.is_square = self.num_rows == self.num_cols
 
 
     def transpose(self):
@@ -198,8 +198,16 @@ class Matrix:
                 row_index += 1
         return mutable_matrix
         
-                
 
+    def augment_matrix(self, matrix_to_augment):
+        if self.num_rows != matrix_to_augment.num_rows: return "invalid dimensions"
+
+        mutable_matrix = self.copy()
+
+        for i in range(0, self.num_rows):
+            mutable_matrix.rows[i] = self.rows[i] + matrix_to_augment.rows[i]
+        
+        return mutable_matrix
 
 
 
@@ -208,15 +216,12 @@ test = Matrix([[1, 2, 3], [15, 5, 6], [15, 0, 9], [10, 698, 19]])
 test.rref().print()
 
 bru = Matrix([[2, 2], [1, 1]])
-# bru.rref().print()
+bru.rref().print()
 
 test1 = Matrix([[1, 1], [1, 1], [1, 1]])
 test2 = Matrix([[2, 2], [2, 2], [2, 2]])
-# print(test.crop_matrix(2).rows)
-# print(test.rows)
 
 wide_matrix = Matrix([[1, 4, 7, 9, 12], [1, 765, 12, 90, 12], [76, 5, 123, 745, 89]])
-# wide_matrix.rref().print()
 
 j_matrix = Matrix([[4, 2, 2, 2, 3], [4, 2, 2, 2, 1]])
 j_matrix.rref().print()
