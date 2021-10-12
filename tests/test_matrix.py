@@ -23,3 +23,7 @@ assert matrix_2.scalar_multiply(6).rows == [[24, 0, 12], [0, 36, 18]]
 
 assert matrix_4.matrix_multiply(matrix_3).rows == [[13, 20], [5, 8]]
 assert matrix_2.matrix_multiply(matrix_1).rows == [[22, 20], [39, 42]]
+
+
+assert matrix_3.calc_determinant_recursive() == -2
+assert matrix_2.calc_determinant_recursive() == "invalid matrix dimensions (calc_determinant_recursive)"
