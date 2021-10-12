@@ -219,12 +219,16 @@ class Matrix:
         return mutable_matrix
 
 
-    def cut_matrix(self):
+    def cut_matrix(self, side):
 
         mutable_matrix = self.copy()
         for i in range(0, self.num_rows):
-            for j in range(0, int(self.num_cols/2)):
-                del mutable_matrix.rows[i][0]
+                for j in range(0, int(self.num_cols/2)):
+                    if side == "left":
+                        del mutable_matrix.rows[i][0]
+                    elif side == "right":
+                        del mutable_matrix.rows[i][-1]
+
         return mutable_matrix
 
 
@@ -240,7 +244,10 @@ class Matrix:
 
         rref_augmented = augmented_matrix.rref()
 
-        inverse = rref_augmented.cut_matrix()
+        if rref_augmented.cut_matrix("right").rows != self.create_identity().rows:
+            return "no inverse"
+
+        inverse = rref_augmented.cut_matrix("left")
 
         # print(inverse.rows)
         return inverse
@@ -262,5 +269,5 @@ wide_matrix = Matrix([[1, 4, 7, 9, 12], [1, 765, 12, 90, 12], [76, 5, 123, 745, 
 j_matrix = Matrix([[4, 2, 2, 2, 3], [4, 2, 2, 2, 1]])
 # j_matrix.rref().print()
 
-test_3 = Matrix([[1, 3, 5], [7, 3, 1], [8, 16, 7]])
-test_3.inverse().print()
+test_3 = Matrix([[1, 3, 5], [7, 3, 1], [1, 3, 5]])
+print(test_3.inverse())
