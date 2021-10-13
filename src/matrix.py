@@ -131,7 +131,7 @@ class Matrix:
 
 
     def swap_rows(self, a, b):
-        print('swapping rows ' + str(a) + ' and ' + str(b))
+        # print('swapping rows ' + str(a) + ' and ' + str(b))
         self.rows[a], self.rows[b] = self.rows[b], self.rows[a]
 
     
@@ -168,7 +168,7 @@ class Matrix:
 
                 scalar = self.rows[l][j]
 
-                print(scalar)
+                # print(scalar)
 
                 for m in range(0, self.num_cols):
 
@@ -228,7 +228,9 @@ class Matrix:
                     elif side == "right":
                         del mutable_matrix.rows[i][-1]
 
-        return mutable_matrix
+        # mutable_matrix.num_cols = int(self.num_cols/2)
+
+        return Matrix(mutable_matrix.rows)
 
 
     def inverse(self):
@@ -250,23 +252,3 @@ class Matrix:
         inverse = rref_augmented.cut_matrix("left")
 
         return inverse
-
-
-
-
-test = Matrix([[1, 2, 3], [15, 5, 6], [15, 0, 9], [10, 698, 19]])
-# test.rref().print()
-
-bru = Matrix([[2, 2], [1, 1]])
-
-
-test1 = Matrix([[1, 1], [1, 1], [1, 1]])
-test2 = Matrix([[2, 2], [2, 2], [2, 2]])
-
-wide_matrix = Matrix([[1, 4, 7, 9, 12], [1, 765, 12, 90, 12], [76, 5, 123, 745, 89]])
-
-j_matrix = Matrix([[4, 2, 2, 2, 3], [4, 2, 2, 2, 1]])
-# j_matrix.rref().print()
-
-test_3 = Matrix([[1, 3, 5], [7, 3, 1], [1, 4, 5]])
-test_3.inverse().print()
