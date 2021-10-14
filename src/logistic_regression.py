@@ -1,9 +1,16 @@
 from matrix import Matrix
-
-class LinearRegressor:
+import math
+class LogisticRegressor:
 
     def fit(self, data):
-        y_matrix_rows = [[point[1]] for point in data]
+
+        for i in range(0, len(data)):
+            current_point = data[i]
+            if current_point[1] >= 1 or current_point[1] <= 0:
+                print('you cant do that')
+                return "no"
+            
+        y_matrix_rows = [[math.log((1 / point[1]) - 1)] for point in data]
         y_matrix = Matrix(y_matrix_rows)
 
         coefficient_matrix_rows = [[point[0], 1] for point in data]
@@ -20,5 +27,4 @@ class LinearRegressor:
 
     def predict(self, x_value):
         if self.coefficients == None: return "no dtata to fit"
-
-        return self.coefficients[1] * x_value + self.coefficients[0]
+        return 1 / (1 + (math.e**((self.coefficients[1] * x_value) + self.coefficients[0])))

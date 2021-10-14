@@ -178,6 +178,11 @@ class Matrix:
                         self.rows[l][m] = 0
 
 
+    def clean(self):
+        for i in range(0, self.num_rows):
+            for j in range(0, self.num_cols):
+                if abs(self.rows[i][j]) < 1e-13:
+                    self.rows[i][j] = 0
 
     def rref(self):
         mutable_matrix = self.copy()
@@ -193,8 +198,9 @@ class Matrix:
                 mutable_matrix.clear_above(row_index, col_index)
                 mutable_matrix.clear_below(row_index, col_index)
                 # print(mutable_matrix.rows)
-
+                mutable_matrix.clean()
                 row_index += 1
+        
         return mutable_matrix
         
 
@@ -245,10 +251,12 @@ class Matrix:
 
         rref_augmented = augmented_matrix.rref()
 
-        if rref_augmented.cut_matrix("right").rows != self.create_identity().rows:
+        if rref_augmented.cut_matrix("right").rows != identity_matrix.rows:
             print("no inverse")
             return "no inverse"
 
         inverse = rref_augmented.cut_matrix("left")
+
+        inverse.clean()
 
         return inverse
