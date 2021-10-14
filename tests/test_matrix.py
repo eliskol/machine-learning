@@ -8,6 +8,7 @@ matrix_2 = Matrix([[4, 0, 2], [0, 6, 3]])
 matrix_3 = Matrix([[1, 2], [3, 4]])
 matrix_4 = Matrix([[4, 3], [2, 1]])
 matrix_5 = Matrix([[1, 2], [3, 4], [5, 6]])
+matrix_6 = Matrix([[4, 1, 8], [9, 0, 9], [5, 0, 0]])
 
 assert matrix_1.transpose().rows == [[3, 4, 5], [2, 4, 6]]
 assert matrix_2.transpose().rows == [[4, 0], [0, 6], [2, 3]]
@@ -30,3 +31,9 @@ assert matrix_2.calc_determinant_recursive() == "invalid matrix dimensions (calc
 
 assert matrix_1.rref().rows == [[1, 0], [0, 1], [0, 0]]
 assert matrix_2.rref().rows == [[1, 0, 0.5], [0, 1, 0.5]]
+
+# assert matrix_1.inverse() == "invalid dimensions, need square matrix"
+matrix_4.inverse().print()
+assert matrix_4.inverse().rows == [[-0.5, 1.5], [1.0, -2.0]]
+matrix_6.inverse().print()
+# assert matrix_6.inverse().rows == [[0, 0, 0.2], [1, -0.888888888888, 0.8], [0, 0.11111111, -0.2]]
