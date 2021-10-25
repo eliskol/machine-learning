@@ -277,7 +277,6 @@ class Matrix:
 
         return inverse
 
-<<<<<<< HEAD
 
     def determinant_rref(self):
 
@@ -296,5 +295,3 @@ class Matrix:
         determinant *= (-1)**number_of_swaps
 
         return determinant
-=======
-    # this is a test btwe
