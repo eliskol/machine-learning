@@ -181,26 +181,42 @@ class Matrix:
     def clean(self):
         for i in range(0, self.num_rows):
             for j in range(0, self.num_cols):
+                if abs(round(self.rows[i][j], 10) - self.rows[i][j]) < 0.0000000000001:
+                    self.rows[i][j] = round(self.rows[i][j], 10)
                 if abs(self.rows[i][j]) < 1e-13:
                     self.rows[i][j] = 0
 
-    def rref(self):
+    def rref(self, for_determinant=False):
         mutable_matrix = self.copy()
         row_index = 0
+        scales = []
+        number_of_swaps = 0
 
         for col_index in range(0, self.num_cols):
+
             pivot_row_index = mutable_matrix.find_pivot_row_index_for_col(col_index)
+
             if pivot_row_index != None:
+
                 if pivot_row_index != row_index:
                     mutable_matrix.swap_rows(pivot_row_index, row_index)
+                    number_of_swaps += 1
+
                 if mutable_matrix.rows[row_index][col_index] != 0:
+                    scalar = 1/mutable_matrix.rows[row_index][col_index]
+                    scales.append(1/scalar)
                     mutable_matrix.scale_row(row_index, 1/mutable_matrix.rows[row_index][col_index])
+
                 mutable_matrix.clear_above(row_index, col_index)
                 mutable_matrix.clear_below(row_index, col_index)
-                # print(mutable_matrix.rows)
+
                 mutable_matrix.clean()
+
                 row_index += 1
         
+        if for_determinant:
+            return scales, number_of_swaps, mutable_matrix
+
         return mutable_matrix
         
 
@@ -261,4 +277,24 @@ class Matrix:
 
         return inverse
 
+<<<<<<< HEAD
+
+    def determinant_rref(self):
+
+        if self.num_rows != self.num_cols: return "cant take determinant"
+
+        determinant = 1
+
+        scales, number_of_swaps, rrefed_form = self.rref(True)
+
+        if rrefed_form.rows != self.create_identity().rows:
+            return 0
+        
+        for scalar in scales:
+            determinant *= scalar
+
+        determinant *= (-1)**number_of_swaps
+
+        return determinant
+=======
     # this is a test btwe
