@@ -17,6 +17,3 @@ class Graph:
     def get_parents(self, node):
         return self.parents_by_id[node]
 
-
-oog = Graph([[0, 1], (1, 2), [2, 0]])
-print(oog.get_children(2))
