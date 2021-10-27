@@ -11,4 +11,3 @@ assert graph_1.get_parents(0) == [4, 5]
 
 assert graph_2.get_parents(0) == [1, 3]
 assert graph_2.get_children(4) == [5, 6]
-#ignore this
