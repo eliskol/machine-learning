@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(1, "/workspace/machine-learning/src")
+sys.path.insert(1, "/home/coder/project/src")
 
 from graph import *
 
