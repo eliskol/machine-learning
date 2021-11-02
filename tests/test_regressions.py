@@ -1,10 +1,9 @@
+from logistic_regression import LogisticRegressor
+from linear_regression import LinearRegressor
+import math
 import sys
 sys.path[0] = '/home/coder/project/src'
 
-import math
-
-from linear_regression import LinearRegressor
-from logistic_regression import LogisticRegressor
 
 # bruh = LinearRegressor()
 # bruh.fit([[1, 0.2], [2, 0.25], [3, 0.5]])
@@ -45,4 +44,7 @@ assert bruh6.coefficients == [0.8203125, 0.78515625, 1.7265624999999991]
 
 bruh7 = LogisticRegressor()
 bruh7.fit([[9, 0, 0.1], [1, 0, 0.2], [2, 0, 0.4], [4, 0, 0.8], [0, 8, 0.6]])
-print(bruh7.coefficients)
+assert bruh7.coefficients == [0.017376675350033288, -0.05285522293227471, 0.15832393650276566]
+
+bruh8 = LogisticRegressor()
+bruh8.fit([])
