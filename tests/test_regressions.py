@@ -41,3 +41,8 @@ assert bruh5.coefficients == [0.5999999999999996, 0.675, 1.799999999999999]
 bruh6 = LinearRegressor()
 bruh6.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [0, 8, 6], [0, 6, 7]])
 assert bruh6.coefficients == [0.8203125, 0.78515625, 1.7265624999999991]
+
+
+bruh7 = LogisticRegressor()
+bruh7.fit([[9, 0, 0.1], [1, 0, 0.2], [2, 0, 0.4], [4, 0, 0.8], [0, 8, 0.6]])
+print(bruh7.coefficients)

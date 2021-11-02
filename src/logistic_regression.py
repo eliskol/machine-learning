@@ -6,7 +6,7 @@ class LogisticRegressor:
 
         for i in range(0, len(data)):
             current_point = data[i]
-            if current_point[1] >= 1 or current_point[1] <= 0:
+            if current_point[-1] >= 1 or current_point[-1] <= 0:
                 print('you cant do that')
                 return "no"
             
