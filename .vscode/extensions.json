@@ -2,6 +2,7 @@
     "recommendations": [
         "ms-vscode.atom-keybindings",
         "emroussel.atomize-atom-one-dark-theme",
-        "ms-python.python"
+        "ms-python.python",
+        "donjayamanne.githistory"
     ]
 }
