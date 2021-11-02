@@ -47,4 +47,5 @@ bruh7.fit([[9, 0, 0.1], [1, 0, 0.2], [2, 0, 0.4], [4, 0, 0.8], [0, 8, 0.6]])
 assert bruh7.coefficients == [0.017376675350033288, -0.05285522293227471, 0.15832393650276566]
 
 bruh8 = LogisticRegressor()
-bruh8.fit([])
+bruh8.fit([[11, 22, 0.3], [17, 1, 0.6], [0, 10, 0.2]])
+print(bruh8.coefficients)
