@@ -28,8 +28,9 @@ class LogisticRegressor:
 
         m_and_b_matrix = transpose_times_coefficients.inverse().matrix_multiply(transpose_times_y)
 
-        self.coefficients = [coefficient[0] for coefficient in m_and_b_matrix.rows[::-1]]
-
+        self.coefficients = [coefficient[0]
+                             for coefficient in m_and_b_matrix.rows[:-1]]
+        self.coefficients.insert(0, m_and_b_matrix.rows[-1][0])
 
     def predict(self, point_to_predict_at):
         if self.coefficients == None: return "no dtata to fit"
