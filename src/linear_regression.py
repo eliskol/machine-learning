@@ -2,7 +2,14 @@ from matrix import Matrix
 
 class LinearRegressor:
 
-    def fit(self, data):
+    def fit(self, data, interaction_terms=None):
+
+        self.coefficients = {}
+
+        if interaction_terms is not None:
+            for interaction_term in interaction_terms:
+                self.coefficients[interaction_term] = None
+
         y_matrix_rows = [[point[-1]] for point in data]
         y_matrix = Matrix(y_matrix_rows)
 
@@ -20,8 +27,15 @@ class LinearRegressor:
 
         m_and_b_matrix = transpose_times_coefficients.inverse().matrix_multiply(transpose_times_y)
 
-        self.coefficients = [coefficient[0] for coefficient in m_and_b_matrix.rows[:-1]]
-        self.coefficients.insert(0, m_and_b_matrix.rows[-1][0])
+        for i in range(0, len(data[0])):
+            if i == len(data[0]) - 1:
+                self.coefficients[0] = m_and_b_matrix.rows[i][0]
+            else:
+                self.coefficients[i + 1] = m_and_b_matrix.rows[i][0]
+        print(self.coefficients)
+
+        # self.coefficients = [coefficient[0] for coefficient in m_and_b_matrix.rows[:-1]]
+        # self.coefficients.insert(0, m_and_b_matrix.rows[-1][0])
 
 
     def predict(self, point_to_predict_at):
@@ -32,3 +46,6 @@ class LinearRegressor:
             answer += point_to_predict_at[i] * self.coefficients[i + 1]
         answer += self.coefficients[0]
         return answer
+
+bruv = LinearRegressor()
+bruv.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [0, 8, 6]])
