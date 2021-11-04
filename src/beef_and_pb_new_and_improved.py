@@ -40,7 +40,7 @@ pain = [[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [
 for rating in pain:
     rating.insert(-1, rating[0] * rating[1])
 
-print(pain)
 oog = LinearRegressor()
 oog.fit(pain)
+print(oog.coefficients)
 print(oog.predict([5, 5, 25]))
