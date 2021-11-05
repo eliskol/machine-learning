@@ -3,6 +3,7 @@
         "ms-vscode.atom-keybindings",
         "emroussel.atomize-atom-one-dark-theme",
         "ms-python.python",
-        "donjayamanne.githistory"
+        "donjayamanne.githistory",
+        "ahmadawais.shades-of-purple"
     ]
 }
