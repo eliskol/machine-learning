@@ -7,6 +7,8 @@ class LinearRegressor:
 
         self.coefficients = {}
 
+        self.num_interaction_terms = len(interaction_terms)
+
         y_matrix_rows = [[point[-1]] for point in data]
         y_matrix = Matrix(y_matrix_rows)
 
@@ -35,16 +37,30 @@ class LinearRegressor:
 
         m_and_b_matrix = transpose_times_coefficients.inverse().matrix_multiply(transpose_times_y)
 
-        for i in range(0, len(data[0])):
-            self.coefficients[i] = put_last_entry_first(m_and_b_matrix.rows)[i][0]
+        coefficient_first_list = put_last_entry_first(m_and_b_matrix.rows)
 
+        for i in range(0, len(data[0])):
+            self.coefficients[i] = coefficient_first_list.pop(0)[0]
+        
+        for key in self.coefficients:
+            if self.coefficients[key] is None:
+                self.coefficients[key] = coefficient_first_list.pop(0)[0]
 
     def predict(self, point_to_predict_at):
         if self.coefficients == None: return "no dtata to fit"
-        if len(point_to_predict_at) != len(self.coefficients) - 1: return ":cursed:"
+        if len(point_to_predict_at) != len(self.coefficients) - (self.num_interaction_terms + 1): return ":cursed:"
         answer = 0
-        for i in range(0, len(point_to_predict_at)):
-            answer += point_to_predict_at[i] * self.coefficients[i + 1]
+        # for i in range(0, len(point_to_predict_at)):
+            # answer += point_to_predict_at[i] * self.coefficients[i + 1]
+        for beta in self.coefficients:
+            if beta == 0: continue
+            elif isinstance(beta, int):
+                answer += self.coefficients[beta] * point_to_predict_at[beta - 1]
+            else:
+                interaction_term = self.coefficients[beta]
+                for term in beta:
+                    interaction_term *= point_to_predict_at[term - 1]
+                answer += interaction_term
         answer += self.coefficients[0]
         return answer
 
@@ -52,7 +68,7 @@ bruv = LinearRegressor()
 bruv.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [
     6, 0, 9], [0, 2, 2], [0, 4, 5], [0, 6, 7], [0, 8, 6], [2, 2, 1], [3, 4, 1]], [(1, 2)])
 print(bruv.coefficients)
-
+print(bruv.predict([5, 5]))
 bruh = LinearRegressor()
 # bruh.fit([[1, 0.2], [2, 0.25], [3, 0.5]])
 # print(bruh.predict([4]))
