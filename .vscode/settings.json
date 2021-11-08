@@ -52,7 +52,9 @@
             "textMateRules": [
                 {
                     "scope": [
-                        "storage.type.function.python"
+                        "storage.type.function.python",
+                        "variable.parameter.function.language.special.self.python",
+                        "variable.language",
                     ],
                     "settings": {
                         "fontStyle": "",
