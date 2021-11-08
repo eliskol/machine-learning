@@ -59,6 +59,14 @@
                     "settings": {
                         "fontStyle": "",
                     }
+                },
+                {
+                    "scope": [
+                        "variable.parameter",
+                    ],
+                    "settings": {
+                        "fontStyle": "bold"
+                    }
                 }
             ]
         }
