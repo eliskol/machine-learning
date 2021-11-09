@@ -6,8 +6,7 @@ class LinearRegressor:
     def fit(self, data, interaction_terms=None):
 
         self.coefficients = {}
-
-        self.num_interaction_terms = len(interaction_terms)
+        self.num_interaction_terms = 0
 
         y_matrix_rows = [[point[-1]] for point in data]
         y_matrix = Matrix(y_matrix_rows)
@@ -20,6 +19,7 @@ class LinearRegressor:
             coefficient_matrix_rows.append(row_to_append)
 
         if interaction_terms is not None:
+            self.num_interaction_terms = len(interaction_terms)
             for interaction_term in interaction_terms:
                 self.coefficients[interaction_term] = None
                 for i in range(0, len(y_matrix.rows)):
@@ -41,7 +41,7 @@ class LinearRegressor:
 
         for i in range(0, len(data[0])):
             self.coefficients[i] = coefficient_first_list.pop(0)[0]
-        
+
         for key in self.coefficients:
             if self.coefficients[key] is None:
                 self.coefficients[key] = coefficient_first_list.pop(0)[0]
@@ -64,11 +64,7 @@ class LinearRegressor:
         answer += self.coefficients[0]
         return answer
 
-bruv = LinearRegressor()
-bruv.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [
-    6, 0, 9], [0, 2, 2], [0, 4, 5], [0, 6, 7], [0, 8, 6], [2, 2, 1], [3, 4, 1]], [(1, 2)])
-print(bruv.coefficients)
-print(bruv.predict([5, 5]))
+
 bruh = LinearRegressor()
 # bruh.fit([[1, 0.2], [2, 0.25], [3, 0.5]])
 # print(bruh.predict([4]))

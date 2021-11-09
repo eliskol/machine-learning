@@ -35,20 +35,28 @@ import math
 # assert math.isclose(bruh4.coefficients[1], -0.45643, rel_tol=0.0001)
 # assert math.isclose(bruh4.predict([7]), 0.79726, rel_tol=0.0001)
 
-bruh5 = LinearRegressor()
-bruh5.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [0, 8, 6]])
-assert bruh5.coefficients == [0.5999999999999996, 1.799999999999999, 0.675]
+# bruh5 = LinearRegressor()
+# bruh5.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [0, 8, 6]])
+# assert bruh5.coefficients == [0.5999999999999996, 1.799999999999999, 0.675]
 
 
-bruh6 = LinearRegressor()
-bruh6.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [0, 8, 6], [0, 6, 7]])
-assert bruh6.coefficients == [0.8203125, 1.7265624999999991, 0.78515625]
+# bruh6 = LinearRegressor()
+# bruh6.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [0, 8, 6], [0, 6, 7]])
+# assert bruh6.coefficients == [0.8203125, 1.7265624999999991, 0.78515625]
 
 
-bruh7 = LogisticRegressor()
-bruh7.fit([[9, 0, 0.1], [1, 0, 0.2], [2, 0, 0.4], [4, 0, 0.8], [0, 8, 0.6]])
-assert bruh7.coefficients == [0.017376675350033288, 0.15832393650276566, -0.05285522293227471]
+# bruh7 = LogisticRegressor()
+# bruh7.fit([[9, 0, 0.1], [1, 0, 0.2], [2, 0, 0.4], [4, 0, 0.8], [0, 8, 0.6]])
+# assert bruh7.coefficients == [0.017376675350033288, 0.15832393650276566, -0.05285522293227471]
 
-bruh8 = LogisticRegressor()
-bruh8.fit([[11, 22, 0.3], [17, 1, 0.6], [0, 10, 0.2]])
-assert bruh8.coefficients == [1.0382279040554385, -0.08697056811000278, 0.03480664570644529]
+# bruh8 = LogisticRegressor()
+# bruh8.fit([[11, 22, 0.3], [17, 1, 0.6], [0, 10, 0.2]])
+# assert bruh8.coefficients == [1.0382279040554385, -0.08697056811000278, 0.03480664570644529]
+
+interaction_term_test_1 = LinearRegressor()
+interaction_term_test_1.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [
+    6, 0, 9], [0, 2, 2], [0, 4, 5], [0, 6, 7], [0, 8, 6], [2, 2, 1], [3, 4, 1]], [(1, 2)])
+assert interaction_term_test_1.coefficients == {(1, 2): -0.6641667008659251, 0: 0.9396930274551654, 1: 1.4395493905692112, 2: 0.7837751877539292}
+assert interaction_term_test_1.predict([5, 5]) == -4.5478516025772615
+
+inter
