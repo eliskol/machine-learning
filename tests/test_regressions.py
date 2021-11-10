@@ -53,16 +53,16 @@ import math
 # bruh8.fit([[11, 22, 0.3], [17, 1, 0.6], [0, 10, 0.2]])
 # assert bruh8.coefficients == [1.0382279040554385, -0.08697056811000278, 0.03480664570644529]
 
-interaction_term_test_1 = LinearRegressor()
-interaction_term_test_1.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [
-    6, 0, 9], [0, 2, 2], [0, 4, 5], [0, 6, 7], [0, 8, 6], [2, 2, 1], [3, 4, 1]], [(1, 2)])
-assert interaction_term_test_1.coefficients == {(1, 2): -0.6641667008659251, 0: 0.9396930274551654, 1: 1.4395493905692112, 2: 0.7837751877539292}
-assert interaction_term_test_1.predict([5, 5]) == -4.5478516025772615
+# interaction_term_test_1 = LinearRegressor()
+# interaction_term_test_1.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [
+#     6, 0, 9], [0, 2, 2], [0, 4, 5], [0, 6, 7], [0, 8, 6], [2, 2, 1], [3, 4, 1]], [(1, 2)])
+# assert interaction_term_test_1.coefficients == {(1, 2): -0.6641667008659251, 0: 0.9396930274551654, 1: 1.4395493905692112, 2: 0.7837751877539292}
+# assert interaction_term_test_1.predict([5, 5]) == -4.5478516025772615
 
 interaction_term_test_2 = LinearRegressor()
-interaction_term_test_2_data = [[41, 41, 26, 3, 37, 37, 19, 11, 5, 50], [14, 19, 38, 16, 46, 38, 47, 50, 25, 6], [32, 23, 45, 29, 23, 2, 1, 10, 27, 31], [34, 46, 1, 27, 3, 6, 31, 4, 20, 11], [12, 4, 2, 12, 35, 33, 28, 11, 46, 20], [23, 29, 35, 6, 38, 17, 33, 50, 42, 31], [42, 4, 46, 22, 50, 10, 37, 14, 34, 16], [8, 48, 50, 8, 31, 6, 45, 19, 40, 23], [8, 1, 44, 27, 47, 5, 8, 17, 46, 2], [42, 24, 8, 26, 34, 46, 14, 46, 47, 6]]
-interaction_term_test_2.fit(interaction_term_test_2_data, [(1, 6)])
-print(interaction_term_test_2.coefficients)
+interaction_term_test_2_data = [[5, 12, 37, 95], [41, 24, 9, 52], [98, 19, 25, 66], [67, 22, 52, 31]]
+interaction_term_test_2.fit(interaction_term_test_2_data)
+# print(interaction_term_test_2.coefficients)
 
 # for row in interaction_term_test_2_data:
 
