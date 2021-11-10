@@ -3,7 +3,7 @@
 
 
 class Matrix:
-    
+
     def __init__(self, rows):
 
         self.rows = rows
@@ -77,7 +77,7 @@ class Matrix:
 
             for j in range(matrix_to_multiply.num_cols):
                 output_matrix[i].append(0)
-                
+
                 for k in range(self.num_cols):
                     output_matrix[i][j] += self.rows[i][k] * matrix_to_multiply.rows[k][j]
 
@@ -107,7 +107,7 @@ class Matrix:
             if self.num_rows == 2:
                 determinant = (self.rows[0][0] * self.rows[1][1]) - (self.rows[0][1] * self.rows[1][0])
                 return determinant
-            
+
             else:
                 determinant = 0
                 for j, entry in enumerate(self.rows[0]):
@@ -134,7 +134,7 @@ class Matrix:
         # print('swapping rows ' + str(a) + ' and ' + str(b))
         self.rows[a], self.rows[b] = self.rows[b], self.rows[a]
 
-    
+
     def scale_row(self, i, s):
         # print('scaling row with index ' + str(i))
         for col_index in range(0, self.num_cols):
@@ -154,7 +154,7 @@ class Matrix:
                     current_entry = self.rows[l][m]
 
                     self.rows[l][m] -= scalar*row_to_subtract_entry
-                    
+
                     if abs(current_entry) < 1e-14:
                         current_entry = 0
 
@@ -213,12 +213,12 @@ class Matrix:
                 mutable_matrix.clean()
 
                 row_index += 1
-        
+
         if for_determinant:
             return scales, number_of_swaps, mutable_matrix
 
         return mutable_matrix
-        
+
 
     def create_identity(self):
         identity_rows = []
@@ -226,7 +226,7 @@ class Matrix:
         for i in range(0, self.num_rows):
             identity_rows.append([0 for col in range(0, self.num_cols)])
             identity_rows[i][i] = 1
-        
+
         return Matrix(identity_rows)
 
     def augment_matrix(self, matrix_to_augment):
@@ -236,7 +236,7 @@ class Matrix:
 
         for i in range(0, self.num_rows):
             mutable_matrix.rows[i] = self.rows[i] + matrix_to_augment.rows[i]
-        
+
         return mutable_matrix
 
 
@@ -288,7 +288,7 @@ class Matrix:
 
         if rrefed_form.rows != self.create_identity().rows:
             return 0
-        
+
         for scalar in scales:
             determinant *= scalar
 
