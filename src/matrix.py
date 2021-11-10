@@ -183,7 +183,7 @@ class Matrix:
             for j in range(0, self.num_cols):
                 if abs(round(self.rows[i][j], 10) - self.rows[i][j]) < 0.0000000000001:
                     self.rows[i][j] = round(self.rows[i][j], 10)
-                if abs(self.rows[i][j]) < 1e-13:
+                if abs(self.rows[i][j]) < 1e-10:
                     self.rows[i][j] = 0
 
     def rref(self, for_determinant=False):
@@ -268,6 +268,7 @@ class Matrix:
         rref_augmented = augmented_matrix.rref()
 
         if rref_augmented.cut_matrix("right").rows != identity_matrix.rows:
+            print(rref_augmented.cut_matrix("right").rows)
             print("no inverse")
             return "no inverse"
 
