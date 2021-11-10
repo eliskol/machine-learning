@@ -60,8 +60,8 @@ import math
 # assert interaction_term_test_1.predict([5, 5]) == -4.5478516025772615
 
 interaction_term_test_2 = LinearRegressor()
-interaction_term_test_2_data = [[5, 12, 37, 95], [41, 24, 9, 52], [98, 19, 25, 66], [67, 22, 52, 31]]
-interaction_term_test_2.fit(interaction_term_test_2_data)
+interaction_term_test_2_data = [[6, 4, 20, 46], [29, 43, 43, 32], [13, 9, 39, 32], [11, 13, 49, 15]]
+interaction_term_test_2.fit(interaction_term_test_2_data, [(2, 1)])
 # print(interaction_term_test_2.coefficients)
 
 # for row in interaction_term_test_2_data:

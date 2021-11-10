@@ -183,7 +183,7 @@ class Matrix:
             for j in range(0, self.num_cols):
                 if abs(round(self.rows[i][j], 10) - self.rows[i][j]) < 0.0000000000001:
                     self.rows[i][j] = round(self.rows[i][j], 10)
-                if abs(self.rows[i][j]) < 1e-10:
+                if abs(self.rows[i][j]) < 1e-7:
                     self.rows[i][j] = 0
 
     def rref(self, for_determinant=False):
@@ -206,10 +206,12 @@ class Matrix:
                     scalar = 1/mutable_matrix.rows[row_index][col_index]
                     scales.append(1/scalar)
                     mutable_matrix.scale_row(row_index, 1/mutable_matrix.rows[row_index][col_index])
+                    mutable_matrix.clean()
 
                 mutable_matrix.clear_above(row_index, col_index)
-                mutable_matrix.clear_below(row_index, col_index)
+                mutable_matrix.clean()
 
+                mutable_matrix.clear_below(row_index, col_index)
                 mutable_matrix.clean()
 
                 row_index += 1
@@ -261,6 +263,8 @@ class Matrix:
 
         mutable_matrix = self.copy()
 
+        mutable_matrix.rref().print()
+
         identity_matrix = mutable_matrix.create_identity()
 
         augmented_matrix = mutable_matrix.augment_matrix(identity_matrix)
@@ -268,7 +272,7 @@ class Matrix:
         rref_augmented = augmented_matrix.rref()
 
         if rref_augmented.cut_matrix("right").rows != identity_matrix.rows:
-            print(rref_augmented.cut_matrix("right").rows)
+            # print(rref_augmented.cut_matrix("right").rows)
             print("no inverse")
             return "no inverse"
 

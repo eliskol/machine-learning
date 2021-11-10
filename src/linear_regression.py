@@ -38,11 +38,11 @@ class LinearRegressor:
         # print(coefficient_matrix_rows)
 
         coefficient_matrix = Matrix(coefficient_matrix_rows)
-        coefficient_matrix.print()
-        print('\n')
+        # coefficient_matrix.print()
+        # print('\n')
         transpose_times_y = coefficient_matrix.transpose().matrix_multiply(y_matrix)
         transpose_times_coefficients = coefficient_matrix.transpose().matrix_multiply(coefficient_matrix)
-        transpose_times_coefficients.print()
+        # transpose_times_coefficients.print()
         m_and_b_matrix = transpose_times_coefficients.inverse().matrix_multiply(transpose_times_y)
 
         coefficient_first_list = put_last_entry_first(m_and_b_matrix.rows)
