@@ -1,5 +1,5 @@
 import sys
-sys.path[0] = '/home/coder/project/src'
+sys.path.insert(1, '/home/elias/Coding-Projects/Eurisko/machine-learning/src/')
 
 
 from logistic_regression import LogisticRegressor
@@ -53,17 +53,21 @@ import math
 # bruh8.fit([[11, 22, 0.3], [17, 1, 0.6], [0, 10, 0.2]])
 # assert bruh8.coefficients == [1.0382279040554385, -0.08697056811000278, 0.03480664570644529]
 
-# interaction_term_test_1 = LinearRegressor()
-# interaction_term_test_1.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [
-#     6, 0, 9], [0, 2, 2], [0, 4, 5], [0, 6, 7], [0, 8, 6], [2, 2, 1], [3, 4, 1]], [(1, 2)])
-# assert interaction_term_test_1.coefficients == {(1, 2): -0.6641667008659251, 0: 0.9396930274551654, 1: 1.4395493905692112, 2: 0.7837751877539292}
-# assert interaction_term_test_1.predict([5, 5]) == -4.5478516025772615
+interaction_term_test_1 = LinearRegressor()
+interaction_term_test_1.fit([[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [
+    6, 0, 9], [0, 2, 2], [0, 4, 5], [0, 6, 7], [0, 8, 6], [2, 2, 1], [3, 4, 1]], [(1, 2)])
+assert interaction_term_test_1.coefficients == {(1, 2): -0.6641667008659251, 0: 0.9396930274551654, 1: 1.4395493905692112, 2: 0.7837751877539292}
+assert interaction_term_test_1.predict([5, 5]) == -4.5478516025772615
 
 interaction_term_test_2 = LinearRegressor()
-interaction_term_test_2_data = [[6, 4, 20, 46], [29, 43, 43, 32], [13, 9, 39, 32], [11, 13, 49, 15]]
-interaction_term_test_2.fit(interaction_term_test_2_data, [(2, 1)])
-# print(interaction_term_test_2.coefficients)
+interaction_term_test_2_data = [[0, 0, 0, 1], [1, 0, 5, 2], [2, 0, 1, 4], [4, 0, 0, 8], [6, 0, 0, 9], [0, 2, 0, 2], [0, 4, 0, 5], [0, 6, 0, 7], [0, 8, 0, 6], [2, 2, 0, 1], [3, 4, 0, 1], [5, 0, 1, 9], [5, 0, 5 ,3], [0, 3, 3, 1], [3, 3, 3, 1]]
+interaction_term_test_2.fit(interaction_term_test_2_data, [(1, 2), (2, 3)])
+# print(interaction_term_test_2.predict([5, 0, 2]))
 
-# for row in interaction_term_test_2_data:
+for i in range(0, len(interaction_term_test_2_data)):
+    interaction_term_test_2_data[i].insert(-1, interaction_term_test_2_data[i][0] * interaction_term_test_2_data[i][1])
+    interaction_term_test_2_data[i].insert(-1, interaction_term_test_2_data[i][2] * interaction_term_test_2_data[i][1])
 
-#test
+check = LinearRegressor()
+check.fit(interaction_term_test_2_data)
+assert check.predict([5, 0, 2, 0, 0]) ==  interaction_term_test_2.predict([5, 0, 2])

@@ -263,8 +263,6 @@ class Matrix:
 
         mutable_matrix = self.copy()
 
-        mutable_matrix.rref().print()
-
         identity_matrix = mutable_matrix.create_identity()
 
         augmented_matrix = mutable_matrix.augment_matrix(identity_matrix)

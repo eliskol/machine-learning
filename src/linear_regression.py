@@ -72,7 +72,3 @@ class LinearRegressor:
         answer += self.coefficients[0]
         return answer
 
-
-bruh = LinearRegressor()
-# bruh.fit([[1, 0.2], [2, 0.25], [3, 0.5]])
-# print(bruh.predict([4]))
