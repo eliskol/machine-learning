@@ -1,6 +1,6 @@
 {
-    "python.pythonPath": "/usr/bin/python3",
-// Theme Setup
+    "python.pythonPath": "/usr/local/bin/python3",
+    // Theme Setup
     // "workbench.colorTheme": "Shades of Purple",
     // "workbench.iconTheme": "vscode-icons",
     "editor.fontFamily": "Operator Mono, Menlo, Monaco, 'Courier New', monospace",
@@ -44,7 +44,6 @@
     "importCost.largePackageColor": "#EC3A37F5",
     "importCost.mediumPackageColor": "#B362FF",
     "importCost.smallPackageColor": "#B362FF",
-
     "atomKeymap.promptV3Features": true,
     "editor.minimap.enabled": false,
     "editor.tokenColorCustomizations": {
@@ -70,5 +69,8 @@
                 }
             ]
         }
-    }
+    },
+    "python.linting.enabled": true,
+    "python.linting.pycodestyleEnabled": true,
+    "python.linting.banditEnabled": false
 }

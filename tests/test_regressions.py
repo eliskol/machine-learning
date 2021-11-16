@@ -1,12 +1,8 @@
 import sys
-sys.path.insert(1, '/home/elias/Coding-Projects/Eurisko/machine-learning/src/')
-
-
+import math
 from logistic_regression import LogisticRegressor
 from linear_regression import LinearRegressor
-import math
-
-
+sys.path.insert(1, '/home/elias/Coding-Projects/Eurisko/machine-learning/src/')
 
 # bruh = LinearRegressor()
 # bruh.fit([[1, 0.2], [2, 0.25], [3, 0.5]])

@@ -1,15 +1,18 @@
 from matrix import Matrix
 from helper import put_last_entry_first
+import math
 
 
-class LinearRegressor:
+class LogisticRegressor:
 
-    def fit(self, data, interaction_terms=None):
+    def fit(self, data, interaction_terms=None, lower_bound=0, upper_bound=1):
 
         self.coefficients = {}
         self.num_interaction_terms = 0
+        self.lower_bound = lower_bound
+        self.upper_bound = upper_bound
 
-        y_matrix_rows = [[point[-1]] for point in data]
+        y_matrix_rows = [[math.log(((upper_bound - point[-1]) / (point[-1] - lower_bound)))] for point in data]
         y_matrix = Matrix(y_matrix_rows)
 
         coefficient_matrix_rows = []
@@ -34,7 +37,8 @@ class LinearRegressor:
                     for term in interaction_term:
                         interaction_term_to_append *= data[i][term - 1]
 
-                    coefficient_matrix_rows[i].insert(-1, interaction_term_to_append)
+                    coefficient_matrix_rows[i].insert(-1,
+                                                      interaction_term_to_append)
 
         # print(coefficient_matrix_rows)
 
@@ -45,7 +49,8 @@ class LinearRegressor:
         transpose_times_coefficients = coefficient_matrix.transpose(
         ).matrix_multiply(coefficient_matrix)
         # transpose_times_coefficients.print()
-        m_and_b_matrix = transpose_times_coefficients.inverse().matrix_multiply(transpose_times_y)
+        m_and_b_matrix = transpose_times_coefficients.inverse(
+        ).matrix_multiply(transpose_times_y)
 
         coefficient_first_list = put_last_entry_first(m_and_b_matrix.rows)
 
@@ -75,4 +80,11 @@ class LinearRegressor:
                     interaction_term *= point_to_predict_at[term - 1]
                 answer += interaction_term
         answer += self.coefficients[0]
-        return answer
+        return self.lower_bound + (self.upper_bound - self.lower_bound)/ (1 + math.e**answer)
+
+
+bruh8 = LogisticRegressor()
+sandwich_data = [[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [6, 0, 9], [0, 2, 2], [0, 4, 5], [0, 6, 7], [0, 8, 6], [2, 2, 1], [3, 4, 1]]
+bruh8.fit(sandwich_data, [(1, 2)], 0, 10)
+print(bruh8.coefficients)
+print(bruh8.predict([5, 1]))
