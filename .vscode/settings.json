@@ -7,7 +7,7 @@
     "terminal.integrated.fontFamily": "'Operator Mono', 'Inconsolata for Powerline', monospace",
     "editor.fontSize": 14,
     "editor.lineHeight": 24.65,
-    "editor.letterSpacing": 0.7,
+    "editor.letterSpacing": 0.5,
     "editor.fontWeight": "300",
     "editor.fontLigatures": true,
     "editor.cursorStyle": "line-thin",
