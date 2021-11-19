@@ -83,8 +83,8 @@ class LogisticRegressor:
         return self.lower_bound + (self.upper_bound - self.lower_bound)/ (1 + math.e**answer)
 
 
-bruh8 = LogisticRegressor()
-sandwich_data = [[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [6, 0, 9], [0, 2, 2], [0, 4, 5], [0, 6, 7], [0, 8, 6], [2, 2, 1], [3, 4, 1]]
-bruh8.fit(sandwich_data, [(1, 2)], 0, 10)
-print(bruh8.coefficients)
-print(bruh8.predict([5, 1]))
+# bruh8 = LogisticRegressor()
+# sandwich_data = [[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [6, 0, 9], [0, 2, 2], [0, 4, 5], [0, 6, 7], [0, 8, 6], [2, 2, 1], [3, 4, 1]]
+# bruh8.fit(sandwich_data, [(1, 2)], 0, 10)
+# print(bruh8.coefficients)
+# print(bruh8.predict([5, 1]))
