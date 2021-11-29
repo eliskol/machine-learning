@@ -31,7 +31,14 @@ class DataFrame:
         return DataFrame.from_array(rows_to_return, self.column_order)
 
     @classmethod
-    def from_array(cls, array, column_order):
-        data_dict = dict(zip(column_order, array))
-        print(data_dict)
+    def from_array(cls, row_array, column_order):
+        column_array = cls.row_array_to_column_array(cls, row_array)
+        data_dict = dict(zip(column_order, column_array))
         return cls(data_dict, column_order=column_order)
+
+    def row_array_to_column_array(self, row_array):
+        column_array = [[0 for row in row_array] for el in row_array[0]]
+        for i in range(0, len(row_array)):
+            for j in range(0, len(row_array[0])):
+                column_array[j][i] = row_array[i][j]
+        return column_array

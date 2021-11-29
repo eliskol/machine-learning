@@ -10,12 +10,16 @@ data_dict = {
 }
 
 df1 = DataFrame(data_dict, column_order=['John', 'Sarah', 'Pete'])
-# print(df1.to_array())
-# ooga = DataFrame.from_array(df1.to_array(), df1.column_order)
-# print(ooga.to_array())
+print(df1.to_array())
 
 df2 = df1.select_columns(['Sarah', 'Pete'])
-# print(df2.to_array())
 
 df3 = df1.select_rows([1, 3])
 print(df3.to_array())
+
+arr = [['Kevin', 'Fray', 5],
+       ['Charles', 'Trapp', 17],
+       ['Anna', 'Smith', 13],
+       ['Sylvia', 'Mendez', 9]]
+
+df4 = DataFrame.from_array(arr, column_order=['firstname', 'lastname', 'age'])

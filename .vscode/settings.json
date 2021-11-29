@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/usr/local/bin/python3",
+    "python.pythonPath": "/usr/bin/python3",
     // Theme Setup
     // "workbench.colorTheme": "Shades of Purple",
     // "workbench.iconTheme": "vscode-icons",
