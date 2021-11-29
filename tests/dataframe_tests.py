@@ -10,12 +10,16 @@ data_dict = {
 }
 
 df1 = DataFrame(data_dict, column_order=['John', 'Sarah', 'Pete'])
-print(df1.to_array())
+assert df1.column_order == ['John', 'Sarah', 'Pete']
+assert df1.to_array() == [[2, 3, 1], [1, 1, 0], [0, 4, 1], [2, 0, 0]]
 
 df2 = df1.select_columns(['Sarah', 'Pete'])
+assert df2.column_order == ['Sarah', 'Pete']
+assert df2.to_array == [[3, 1], [1, 0], [4, 1], [0, 0]]
 
 df3 = df1.select_rows([1, 3])
-print(df3.to_array())
+assert df3.column_order == ['John', 'Sarah', 'Pete']
+assert df3.to_array == [[1, 1, 0], [2, 0, 0]]
 
 arr = [['Kevin', 'Fray', 5],
        ['Charles', 'Trapp', 17],
@@ -23,3 +27,7 @@ arr = [['Kevin', 'Fray', 5],
        ['Sylvia', 'Mendez', 9]]
 
 df4 = DataFrame.from_array(arr, column_order=['firstname', 'lastname', 'age'])
+# print(df4.to_array())
+print(df4.to_json())
+df5 = DataFrame.from_json(df4.to_json(), ['lastname', 'firstname', 'age'])
+print(df5.to_array())

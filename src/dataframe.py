@@ -42,3 +42,22 @@ class DataFrame:
             for j in range(0, len(row_array[0])):
                 column_array[j][i] = row_array[i][j]
         return column_array
+
+    # def order_by(self, column_to_order_by, ascending):
+    #     if type(self.data_dict[column_to_order_by][0]) is int:
+    #         for row in
+
+    def to_json(self):
+        json_to_return = [{} for row in self.data_array]
+        for column in self.column_order:
+            for i in range(0, len(self.data_array)):
+                json_to_return[i][column] = self.data_dict[column][i]
+        return json_to_return
+
+    @classmethod
+    def from_json(cls, json, column_order):
+        data_dict = {column: [] for column in column_order}
+        for row in json:
+            for column in column_order:
+                data_dict[column].append(row[column])
+        return cls(data_dict, column_order=column_order)
