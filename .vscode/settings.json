@@ -3,8 +3,8 @@
     // Theme Setup
     // "workbench.colorTheme": "Shades of Purple",
     // "workbench.iconTheme": "vscode-icons",
-    "editor.fontFamily": "Operator Mono, Menlo, Monaco, 'Courier New', monospace",
-    "terminal.integrated.fontFamily": "'Operator Mono', 'Inconsolata for Powerline', monospace",
+    "editor.fontFamily": "Cousine, Operator Mono, Menlo, Monaco, 'Courier New', monospace",
+    "terminal.integrated.fontFamily": "Cousine, 'Operator Mono', 'Inconsolata for Powerline', monospace",
     "editor.fontSize": 14,
     "editor.lineHeight": 24.65,
     "editor.letterSpacing": 0.5,
