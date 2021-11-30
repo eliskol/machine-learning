@@ -5,3 +5,11 @@
   * [x] order_by()
   * [x] improve to_array()
   * [ ] tests
+
+* Logistic Regressor
+  * [ ] tests
+
+* Data Analysis
+  * [ ] more hypotheses
+  * [ ] confirm/deny hypotheses
+  * [ ] presentation
