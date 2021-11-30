@@ -27,10 +27,13 @@ arr = [['Kevin', 'Fray', 5],
        ['Sylvia', 'Mendez', 9]]
 
 df4 = DataFrame.from_array(arr, column_order=['firstname', 'lastname', 'age'])
-# print(df4.to_array())
-# print(df4.to_json())
-df5 = DataFrame.from_json(df4.to_json(), ['lastname', 'firstname', 'age'])
-print(df5.to_array(), '\n')
+df5 = DataFrame.from_json(df4.to_json(), ['firstname', 'lastname', 'age'])
+assert df4.to_array() == df5.to_array()
+assert df4.data_dict == df5.data_dict
+
 
 df6 = df5.order_by('lastname', ascending=False)
-print(df6.to_array())
+assert df6.to_array() == [['Charles', 'Trapp', 17], ['Anna', 'Smith', 13], [
+    'Sylvia', 'Mendez', 9], ['Kevin', 'Fray', 5]]
+
+assert df6.order_by('age', ascending=True).to_json() == [{'firstname': 'Kevin', 'lastname': 'Fray', 'age': 5}, {'firstname': 'Sylvia', 'lastname': 'Mendez', 'age': 9}, {'firstname': 'Anna', 'lastname': 'Smith', 'age': 13}, {'firstname': 'Charles', 'lastname': 'Trapp', 'age': 17}]
