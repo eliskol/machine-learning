@@ -1,6 +1,7 @@
 # TODO
 * DataFrame class
   * [x] from_array()
-  * [ ] from_json()
-  * [ ] order_by()
+  * [x] from_json()
+  * [x] order_by()
   * [x] improve to_array()
+  * [ ] tests
