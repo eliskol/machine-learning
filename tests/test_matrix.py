@@ -1,5 +1,5 @@
 import sys
-sys.path[0] = '../src'
+sys.path.insert(1, sys.path[0].replace('tests', 'src'))
 
 from matrix import Matrix
 from is_close import is_close
@@ -25,7 +25,9 @@ matrix_9 = Matrix([[5 , 4 , 2 , 4 , 6 , 3 , 8 , 5 , 2 , 7 , 9 , 3 , 0 , 9 , 8], 
 # assert matrix_5.scalar_multiply(2).rows == [[2, 4], [6, 8], [10, 12]]
 # assert matrix_2.scalar_multiply(6).rows == [[24, 0, 12], [0, 36, 18]]
 
-# assert matrix_4.matrix_multiply(matrix_3).rows == [[13, 20], [5, 8]]
+assert matrix_4.matrix_multiply(matrix_3).rows == [[13, 20], [5, 8]]
+bruh = matrix_4 @ matrix_3
+print(bruh.rows)
 # assert matrix_2.matrix_multiply(matrix_1).rows == [[22, 20], [39, 42]]
 
 
@@ -43,5 +45,5 @@ matrix_9 = Matrix([[5 , 4 , 2 , 4 , 6 , 3 , 8 , 5 , 2 , 7 , 9 , 3 , 0 , 9 , 8], 
 # assert is_close(matrix_7.calc_determinant_recursive(), matrix_7.determinant_rref())
 # assert matrix_1.determinant_rref() == "cant take determinant"
 # assert matrix_8.determinant_rref() == 0
-print(matrix_9.determinant_rref())
-print(matrix_9.calc_determinant_recursive())
+# print(matrix_9.determinant_rref())
+# print(matrix_9.calc_determinant_recursive())

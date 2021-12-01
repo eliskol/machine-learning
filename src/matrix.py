@@ -1,6 +1,8 @@
 # import sys
 # sys.path.append('../')
 
+import time
+import random
 
 class Matrix:
 
@@ -10,7 +12,6 @@ class Matrix:
         self.num_cols = len(self.rows[0])
         self.num_rows = len(self.rows)
         self.is_square = self.num_rows == self.num_cols
-
 
     def transpose(self):
         raw_transpose = []
@@ -24,11 +25,9 @@ class Matrix:
 
         return Matrix(raw_transpose)
 
-
     def print(self):
         for row in self.rows:
             print(row)
-
 
     def add(self, matrix_to_add):
 
@@ -42,10 +41,16 @@ class Matrix:
             output_matrix.append([])
 
             for j in range(self.num_cols):
-                output_matrix[i].append(self.rows[i][j] + matrix_to_add.rows[i][j])
+                output_matrix[i].append(
+                    self.rows[i][j] + matrix_to_add.rows[i][j])
 
         return Matrix(output_matrix)
 
+    def __add__(self, matrix_to_add):
+        return self.add(matrix_to_add)
+
+    def __sub__(self, matrix_to_subtract):
+        return self.add(matrix_to_add * -1)
 
     def subtract(self, matrix_to_subtract):
         if self.num_cols != matrix_to_subtract.num_cols or self.num_rows != matrix_to_subtract.num_rows:
@@ -58,15 +63,20 @@ class Matrix:
             output_matrix.append([])
 
             for j in range(self.num_cols):
-                output_matrix[i].append(self.rows[i][j] - matrix_to_subtract.rows[i][j])
+                output_matrix[i].append(
+                    self.rows[i][j] - matrix_to_subtract.rows[i][j])
 
         return Matrix(output_matrix)
-
 
     def scalar_multiply(self, scalar):
         new_rows = [[entry * scalar for entry in row] for row in self.rows]
         return Matrix(new_rows)
 
+    def __mul__(self, scalar):
+        return self.scalar_multiply(scalar)
+
+    def __rmul__(self, scalar):
+        return self.scalar_multiply(scalar)
 
     def matrix_multiply(self, matrix_to_multiply):
 
@@ -79,14 +89,16 @@ class Matrix:
                 output_matrix[i].append(0)
 
                 for k in range(self.num_cols):
-                    output_matrix[i][j] += self.rows[i][k] * matrix_to_multiply.rows[k][j]
-
+                    output_matrix[i][j] += self.rows[i][k] * \
+                        matrix_to_multiply.rows[k][j]
 
         return Matrix(output_matrix)
 
+    def __matmul__(self, matrix_to_multiply):
+        return self.matrix_multiply(matrix_to_multiply)
+
     def copy(self):
         return Matrix([[element for element in row] for row in self.rows])
-
 
     def crop_matrix(self, j):
         cropped_rows = self.copy().rows
@@ -94,8 +106,6 @@ class Matrix:
         for i, row in enumerate(cropped_rows):
             cropped_rows[i].pop(j)
         return Matrix(cropped_rows)
-
-
 
     def calc_determinant_recursive(self):
 
@@ -105,7 +115,8 @@ class Matrix:
         else:
             determinant = 0
             if self.num_rows == 2:
-                determinant = (self.rows[0][0] * self.rows[1][1]) - (self.rows[0][1] * self.rows[1][0])
+                determinant = (self.rows[0][0] * self.rows[1]
+                               [1]) - (self.rows[0][1] * self.rows[1][0])
                 return determinant
 
             else:
@@ -116,7 +127,6 @@ class Matrix:
                     determinant += cofactor*trimmed_matrix.calc_determinant_recursive()
 
                 return determinant
-
 
     def find_index_of_first_nonzero_of_row(self, i):
         for j in range(0, self.num_cols):
@@ -129,11 +139,9 @@ class Matrix:
             if self.find_index_of_first_nonzero_of_row(i) == j:
                 return i
 
-
     def swap_rows(self, a, b):
         # print('swapping rows ' + str(a) + ' and ' + str(b))
         self.rows[a], self.rows[b] = self.rows[b], self.rows[a]
-
 
     def scale_row(self, i, s):
         # print('scaling row with index ' + str(i))
@@ -158,7 +166,6 @@ class Matrix:
                     if abs(current_entry) < 1e-14:
                         current_entry = 0
 
-
     def clear_below(self, i, j):
         # print('clearing below row with index ' + str(i) + ', j = ' + str(j))
 
@@ -177,7 +184,6 @@ class Matrix:
                     if abs(self.rows[l][m]) < 1e-14:
                         self.rows[l][m] = 0
 
-
     def clean(self):
         for i in range(0, self.num_rows):
             for j in range(0, self.num_cols):
@@ -194,7 +200,8 @@ class Matrix:
 
         for col_index in range(0, self.num_cols):
 
-            pivot_row_index = mutable_matrix.find_pivot_row_index_for_col(col_index)
+            pivot_row_index = mutable_matrix.find_pivot_row_index_for_col(
+                col_index)
 
             if pivot_row_index != None:
 
@@ -205,7 +212,8 @@ class Matrix:
                 if mutable_matrix.rows[row_index][col_index] != 0:
                     scalar = 1/mutable_matrix.rows[row_index][col_index]
                     scales.append(1/scalar)
-                    mutable_matrix.scale_row(row_index, 1/mutable_matrix.rows[row_index][col_index])
+                    mutable_matrix.scale_row(
+                        row_index, 1/mutable_matrix.rows[row_index][col_index])
                     mutable_matrix.clean()
 
                 mutable_matrix.clear_above(row_index, col_index)
@@ -221,7 +229,6 @@ class Matrix:
 
         return mutable_matrix
 
-
     def create_identity(self):
         identity_rows = []
 
@@ -232,7 +239,8 @@ class Matrix:
         return Matrix(identity_rows)
 
     def augment_matrix(self, matrix_to_augment):
-        if self.num_rows != matrix_to_augment.num_rows: return "invalid dimensions"
+        if self.num_rows != matrix_to_augment.num_rows:
+            return "invalid dimensions"
 
         mutable_matrix = self.copy()
 
@@ -241,25 +249,24 @@ class Matrix:
 
         return mutable_matrix
 
-
     def cut_matrix(self, side):
 
         mutable_matrix = self.copy()
         for i in range(0, self.num_rows):
-                for j in range(0, int(self.num_cols/2)):
-                    if side == "left":
-                        del mutable_matrix.rows[i][0]
-                    elif side == "right":
-                        del mutable_matrix.rows[i][-1]
+            for j in range(0, int(self.num_cols/2)):
+                if side == "left":
+                    del mutable_matrix.rows[i][0]
+                elif side == "right":
+                    del mutable_matrix.rows[i][-1]
 
         # mutable_matrix.num_cols = int(self.num_cols/2)
 
         return Matrix(mutable_matrix.rows)
 
-
     def inverse(self):
 
-        if self.num_cols != self.num_rows: return "invalid dimensions, need square matrix"
+        if self.num_cols != self.num_rows:
+            return "invalid dimensions, need square matrix"
 
         mutable_matrix = self.copy()
 
@@ -280,10 +287,10 @@ class Matrix:
 
         return inverse
 
-
     def determinant_rref(self):
 
-        if self.num_rows != self.num_cols: return "cant take determinant"
+        if self.num_rows != self.num_cols:
+            return "cant take determinant"
 
         determinant = 1
 
@@ -298,3 +305,32 @@ class Matrix:
         determinant *= (-1)**number_of_swaps
 
         return determinant
+
+    def __eq__(self, matrix_to_compare):
+        if self.rows == matrix_to_compare.rows:
+            return True
+        else:
+            return False
+
+    def exponent(self, exponent_to_raise_to):
+
+        current_matrix = self.copy()
+        for i in range(0, exponent_to_raise_to):
+            current_matrix @= self
+        return current_matrix
+
+    @classmethod
+    def random_matrix(cls, num_rows, num_cols, min_value, max_value):
+        random_matrix_rows = []
+        for i in range(0, num_rows):
+            random_matrix_rows.append([])
+            for j in range(0, num_cols):
+                random_matrix_rows[i].append(random.randint(min_value, max_value))
+        return cls(random_matrix_rows)
+
+A = Matrix.random_matrix(2, 2, -10, 10)
+print(A.rows)
+start = time.time()
+print(A.exponent(1000000).rows)
+end = time.time()
+print(end - start)
