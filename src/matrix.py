@@ -4,6 +4,7 @@
 import time
 import random
 
+
 class Matrix:
 
     def __init__(self, rows):
@@ -203,7 +204,7 @@ class Matrix:
             pivot_row_index = mutable_matrix.find_pivot_row_index_for_col(
                 col_index)
 
-            if pivot_row_index != None:
+            if pivot_row_index is not None:
 
                 if pivot_row_index != row_index:
                     mutable_matrix.swap_rows(pivot_row_index, row_index)
@@ -315,9 +316,12 @@ class Matrix:
     def exponent(self, exponent_to_raise_to):
 
         current_matrix = self.copy()
-        for i in range(0, exponent_to_raise_to):
+        for i in range(1, exponent_to_raise_to):
             current_matrix @= self
         return current_matrix
+
+    def __pow__(self, exponent_to_raise_to):
+        return self.exponent(exponent_to_raise_to)
 
     @classmethod
     def random_matrix(cls, num_rows, num_cols, min_value, max_value):
@@ -327,10 +331,3 @@ class Matrix:
             for j in range(0, num_cols):
                 random_matrix_rows[i].append(random.randint(min_value, max_value))
         return cls(random_matrix_rows)
-
-A = Matrix.random_matrix(2, 2, -10, 10)
-print(A.rows)
-start = time.time()
-print(A.exponent(1000000).rows)
-end = time.time()
-print(end - start)
