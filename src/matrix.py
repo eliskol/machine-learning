@@ -51,7 +51,7 @@ class Matrix:
         return self.add(matrix_to_add)
 
     def __sub__(self, matrix_to_subtract):
-        return self.add(matrix_to_add * -1)
+        return self.subtract(matrix_to_subtract)
 
     def subtract(self, matrix_to_subtract):
         if self.num_cols != matrix_to_subtract.num_cols or self.num_rows != matrix_to_subtract.num_rows:
