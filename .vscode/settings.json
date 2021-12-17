@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/usr/bin/python3",
+    "python.pythonPath": "/home/alfias/.pyenv/versions/3.10.0/bin/python",
     // Theme Setup
     // "workbench.colorTheme": "Shades of Purple",
     // "workbench.iconTheme": "vscode-icons",
