@@ -46,11 +46,9 @@ class LogisticRegressor:
         # coefficient_matrix.print()
         # print('\n')
         transpose_times_y = coefficient_matrix.transpose().matrix_multiply(y_matrix)
-        transpose_times_coefficients = coefficient_matrix.transpose(
-        ).matrix_multiply(coefficient_matrix)
+        transpose_times_coefficients = coefficient_matrix.transpose().matrix_multiply(coefficient_matrix)
         # transpose_times_coefficients.print()
-        m_and_b_matrix = transpose_times_coefficients.inverse(
-        ).matrix_multiply(transpose_times_y)
+        m_and_b_matrix = transpose_times_coefficients.inverse().matrix_multiply(transpose_times_y)
 
         coefficient_first_list = put_last_entry_first(m_and_b_matrix.rows)
 
@@ -81,10 +79,3 @@ class LogisticRegressor:
                 answer += interaction_term
         answer += self.coefficients[0]
         return self.lower_bound + (self.upper_bound - self.lower_bound)/ (1 + math.e**answer)
-
-
-# bruh8 = LogisticRegressor()
-# sandwich_data = [[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [6, 0, 9], [0, 2, 2], [0, 4, 5], [0, 6, 7], [0, 8, 6], [2, 2, 1], [3, 4, 1]]
-# bruh8.fit(sandwich_data, [(1, 2)], 0, 10)
-# print(bruh8.coefficients)
-# print(bruh8.predict([5, 1]))
