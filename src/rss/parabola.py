@@ -47,9 +47,7 @@ def rss_regression(a0, b0, c0, dataset, learning_rate=0.1, iterations="rss"):
 
     else:
         for i in range(iterations):
-            rss_value = rss(a, b, c, dataset)
-            print(rss_value)
-            # if (rss_value > 100): print([da, db, dc], [a, b, c])
+            # rss_value = rss(a, b, c, dataset)
             da = drss_da(a, b, c, dataset)
             db = drss_db(a, b, c, dataset)
             dc = drss_dc(a, b, c, dataset)
@@ -62,4 +60,4 @@ def rss_regression(a0, b0, c0, dataset, learning_rate=0.1, iterations="rss"):
     return [a, b, c]
 
 
-print(rss_regression(1, 0, 0, [(0, 2), (1, 0), (2, 1), (3, 1)], 0.001, 1000))
+# print(rss_regression(1, 0, 0, [(0, 2), (1, 0), (2, 1), (3, 1)], 0.001, 100000))
