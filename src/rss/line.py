@@ -29,8 +29,8 @@ def rss_regression(a0, b0, dataset, learning_rate=0.1, iterations="rss"):
         rssv = rss(a, b, dataset)
         while rssv > 0.6:
             rssv = rss(a, b, dataset)
-            da = drss_da(a, b0, dataset)
-            db = drss_db(a0, b, dataset)
+            da = drss_da(a, b, dataset)
+            db = drss_db(a, b, dataset)
 
             a = a - learning_rate * da
             b = b - learning_rate * db
