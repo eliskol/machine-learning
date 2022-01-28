@@ -13,6 +13,13 @@ class Matrix:
         self.num_cols = len(self.rows[0])
         self.num_rows = len(self.rows)
         self.is_square = self.num_rows == self.num_cols
+        self.rank = 0
+
+        for i in range(num_cols):
+            if self.find_pivot_row_index_for_col(i) is not None:
+                self.rank += 1
+
+
 
     def transpose(self):
         raw_transpose = []
