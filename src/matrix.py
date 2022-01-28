@@ -14,12 +14,12 @@ class Matrix:
         self.num_rows = len(self.rows)
         self.is_square = self.num_rows == self.num_cols
         self.rank = 0
+        self.nullity = self.num_cols
 
-        for i in range(num_cols):
+        for i in range(self.num_cols):
             if self.find_pivot_row_index_for_col(i) is not None:
                 self.rank += 1
-
-
+                self.nullity -= 1
 
     def transpose(self):
         raw_transpose = []
@@ -39,7 +39,8 @@ class Matrix:
 
     def add(self, matrix_to_add):
 
-        if self.num_cols != matrix_to_add.num_cols or self.num_rows != matrix_to_add.num_rows:
+        if self.num_cols != matrix_to_add.num_cols \
+           or self.num_rows != matrix_to_add.num_rows:
             print("invalid matrix dimensions")
             return("invalid matrix dimensions")
 
@@ -61,7 +62,8 @@ class Matrix:
         return self.subtract(matrix_to_subtract)
 
     def subtract(self, matrix_to_subtract):
-        if self.num_cols != matrix_to_subtract.num_cols or self.num_rows != matrix_to_subtract.num_rows:
+        if self.num_cols != matrix_to_subtract.num_cols \
+           or self.num_rows != matrix_to_subtract.num_rows:
             print("invalid matrix dimensions")
             return("invalid matrix dimensions")
 
@@ -132,7 +134,7 @@ class Matrix:
                 for j, entry in enumerate(self.rows[0]):
                     cofactor = entry*((-1)**j)
                     trimmed_matrix = self.crop_matrix(j)
-                    determinant += cofactor*trimmed_matrix.calc_determinant_recursive()
+                    determinant += cofactor * trimmed_matrix.calc_determinant_recursive()
 
                 return determinant
 
