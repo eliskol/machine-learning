@@ -132,7 +132,7 @@ class Matrix:
             else:
                 determinant = 0
                 for j, entry in enumerate(self.rows[0]):
-                    cofactor = entry*((-1)**j)
+                    cofactor = entry * ((-1) ** j)
                     trimmed_matrix = self.crop_matrix(j)
                     determinant += cofactor * trimmed_matrix.calc_determinant_recursive()
 
@@ -171,7 +171,7 @@ class Matrix:
 
                     current_entry = self.rows[l][m]
 
-                    self.rows[l][m] -= scalar*row_to_subtract_entry
+                    self.rows[l][m] -= scalar * row_to_subtract_entry
 
                     if abs(current_entry) < 1e-14:
                         current_entry = 0
@@ -179,9 +179,9 @@ class Matrix:
     def clear_below(self, i, j):
         # print('clearing below row with index ' + str(i) + ', j = ' + str(j))
 
-        if i != self.num_rows-1:
+        if i != self.num_rows - 1:
 
-            for l in range(i+1, self.num_rows):
+            for l in range(i + 1, self.num_rows):
 
                 scalar = self.rows[l][j]
 
@@ -189,7 +189,7 @@ class Matrix:
 
                 for m in range(0, self.num_cols):
 
-                    self.rows[l][m] -= self.rows[i][m]*scalar
+                    self.rows[l][m] -= self.rows[i][m] * scalar
 
                     if abs(self.rows[l][m]) < 1e-14:
                         self.rows[l][m] = 0
@@ -220,10 +220,10 @@ class Matrix:
                     number_of_swaps += 1
 
                 if mutable_matrix.rows[row_index][col_index] != 0:
-                    scalar = 1/mutable_matrix.rows[row_index][col_index]
-                    scales.append(1/scalar)
+                    scalar = 1 / mutable_matrix.rows[row_index][col_index]
+                    scales.append(1 / scalar)
                     mutable_matrix.scale_row(
-                        row_index, 1/mutable_matrix.rows[row_index][col_index])
+                        row_index, 1 / mutable_matrix.rows[row_index][col_index])
                     mutable_matrix.clean()
 
                 mutable_matrix.clear_above(row_index, col_index)
@@ -263,7 +263,7 @@ class Matrix:
 
         mutable_matrix = self.copy()
         for i in range(0, self.num_rows):
-            for j in range(0, int(self.num_cols/2)):
+            for j in range(0, int(self.num_cols / 2)):
                 if side == "left":
                     del mutable_matrix.rows[i][0]
                 elif side == "right":
