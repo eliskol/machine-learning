@@ -3,6 +3,8 @@ sys.path.insert(1, sys.path[0].replace('tests', 'src/rss'))
 
 from line import rss_regression as line_rss_regression
 from parabola import rss_regression as parabola_rss_regression
+from logistic import regression as logistic_rss_regression
+
 
 line_test_dataset = [(0, 1), (2, 3), (3, 5)]
 line_coeffs = line_rss_regression(1, 0, line_test_dataset, 0.001, 1000)
@@ -26,3 +28,12 @@ parabola_coeffs = parabola_rss_regression(1, 0, 0, parabola_test_dataset, 0.0087
 assert round(parabola_coeffs[0], 3) == 0.495 \
        and round(parabola_coeffs[1], 3) == -1.685 \
        and round(parabola_coeffs[2], 3) == 1.792
+
+logistic_test_dataset = [[0, 0], [1, 0.5], [4, 1]]
+logistic_coeffs = logistic_rss_regression(-1, 0, logistic_test_dataset, 0.1, 1)
+assert round(logistic_coeffs[0], 2) == 0.03 \
+       and round(logistic_coeffs[1], 3) == -0.991
+
+logistic_coeffs = logistic_rss_regression(-1, 0, logistic_test_dataset, 0.01, 100000)
+assert round(logistic_coeffs[0], 3) == 3.726 \
+       and round(logistic_coeffs[1], 3) == -3.721
