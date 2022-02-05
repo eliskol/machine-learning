@@ -28,22 +28,19 @@ class KMeans:
                 return key
 
     def run(self):
-        old_clusters = self.clusters
-        new_clusters = {cluster: [] for cluster in self.initial_clusters}
-        while old_clusters != new_clusters:
-            old_clusters = new_clusters
-            new_clusters = {cluster: [] for cluster in self.initial_clusters}
-            cluster_centers = {cluster_index: self.find_center_of_cluster(
-                old_clusters[cluster_index]) for cluster_index in old_clusters}
+        old_clusters = self.initial_clusters
+        while old_clusters != self.clusters or old_clusters == self.initial_clusters:
+            old_clusters = self.clusters
+            self.clusters = {cluster_index: [] for cluster_index in self.clusters}
+            cluster_centers = {index: self.find_center_of_cluster(
+                old_clusters[index]) for index in old_clusters}
             for cluster_index in old_clusters:
                 cluster = old_clusters[cluster_index]
                 for point_index in cluster:
-                    index_of_closest_cluster = self.find_index_of_closest_cluster(
-                        point_index, cluster_centers)
-                    new_clusters[index_of_closest_cluster].append(point_index)
+                    index_of_closest_cluster = self.find_index_of_closest_cluster(point_index, cluster_centers)
+                    self.clusters[index_of_closest_cluster].append(point_index)
 
-
-        return new_clusters
+        return self.clusters
 
 
 data = [[0.14, 0.14, 0.28, 0.44],
