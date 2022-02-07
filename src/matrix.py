@@ -163,7 +163,7 @@ class Matrix:
             # print('clearing above row with index ' + str(i))
             for l in range(0, i):
 
-                scalar = self.rows[l][j]
+                scalar = self.rows[l][j] / self.rows[i][j]
 
                 for m in range(0, self.num_cols):
 
@@ -183,7 +183,7 @@ class Matrix:
 
             for l in range(i + 1, self.num_rows):
 
-                scalar = self.rows[l][j]
+                scalar = self.rows[l][j] / self.rows[i][j]
 
                 # print(scalar)
 
