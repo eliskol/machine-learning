@@ -40,7 +40,7 @@ class KMeans:
                     index_of_closest_cluster = self.find_index_of_closest_cluster(point_index, cluster_centers)
                     self.clusters[index_of_closest_cluster].append(point_index)
 
-        return self.clusters
+        # return self.clusters
 
 
 data = [[0.14, 0.14, 0.28, 0.44],
@@ -68,6 +68,3 @@ initial_clusters = {
     2: [1, 4, 7, 10, 13, 16],
     3: [2, 5, 8, 11, 14, 17]
 }
-
-bruh = KMeans(initial_clusters, data)
-print(bruh.run())
