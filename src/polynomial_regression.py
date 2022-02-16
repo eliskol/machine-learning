@@ -19,8 +19,6 @@ class PolynomialRegressor:
         transpose_times_coefficients = coefficient_matrix.transpose(
         ).matrix_multiply(coefficient_matrix)
 
-        transpose_times_coefficients.inverse().print()
-
         m_and_b_matrix = transpose_times_coefficients.inverse(
         ).matrix_multiply(transpose_times_y)
 
@@ -37,9 +35,3 @@ class PolynomialRegressor:
             answer += point_to_predict_at[i] * self.coefficients[i + 1]
         answer += self.coefficients[0]
         return answer
-
-
-data = [(1, 2), (3, 4), (5, 6)]
-bruh = PolynomialRegressor()
-bruh.fit(data, 3)
-print(bruh.coefficients)
