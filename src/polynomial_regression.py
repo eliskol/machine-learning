@@ -4,6 +4,8 @@ from matrix import Matrix
 class PolynomialRegressor:
 
     def fit(self, data, n):
+        self.n = n
+
         y_matrix_rows = [[point[1]] for point in data]
         y_matrix = Matrix(y_matrix_rows)
 
@@ -25,13 +27,8 @@ class PolynomialRegressor:
         self.coefficients = [coefficient[0]
                              for coefficient in m_and_b_matrix.rows]
 
-    def predict(self, point_to_predict_at):
-        if self.coefficients == None:
-            return "no dtata to fit"
-        if len(point_to_predict_at) != len(self.coefficients) - 1:
-            return ":cursed:"
-        answer = 0
-        for i in range(0, len(point_to_predict_at)):
-            answer += point_to_predict_at[i] * self.coefficients[i + 1]
-        answer += self.coefficients[0]
-        return answer
+    def predict(self, x_value):
+        y_value = 0
+        for power in range(self.n + 1):
+            y_value += self.coefficients[power] * (x_value ** power)
+        return y_value
