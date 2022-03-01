@@ -32,3 +32,8 @@ class PolynomialRegressor:
         for power in range(self.n + 1):
             y_value += self.coefficients[power] * (x_value ** power)
         return y_value
+
+data = [(-1, 2), (1, 0), (2, 4)]
+bruh = PolynomialRegressor()
+bruh.fit(data, 1)
+print(bruh.coefficients)
