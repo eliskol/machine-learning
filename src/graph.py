@@ -84,15 +84,13 @@ class Graph:
         visited = {}
         order = []
 
-        self.nodes_by_id[start_index].distance += 1
-
         while queue.contents != []:
 
             dequeued_node = queue.dequeue()
             order.append(dequeued_node)
             visited[dequeued_node] = True
             node_children = self.get_children(dequeued_node)
-            current_node = Node(dequeued_node)
+            current_node = self.nodes_by_id[dequeued_node]
 
             if node_children is None:
                 continue
@@ -101,9 +99,32 @@ class Graph:
                 if child in visited:
                     continue
                 self.nodes_by_id[child].previous = current_node
-                self.nodes_by_id[child].distance += 1
+                self.nodes_by_id[child].distance = current_node.distance + 1
+                # print(self.nodes_by_id[child].distance)
 
                 queue.enqueue(child)
                 visited[child] = True
-
         return order
+
+    def calc_distance(self, starting_node_index, ending_node_index):
+        self.set_distance_and_previous(starting_node_index)
+        ending_node = self.nodes_by_id[ending_node_index]
+        if ending_node_index not in self.set_distance_and_previous(starting_node_index):
+            return False
+        else:
+            return self.nodes_by_id[ending_node_index].distance
+
+    def calc_shortest_path(self, starting_node_index, ending_node_index):
+        self.set_distance_and_previous(starting_node_index)
+
+        if self.calc_distance(starting_node_index, ending_node_index) is False:
+            return False
+
+        path = [ending_node_index]
+        current_node = self.nodes_by_id[ending_node_index]
+        goal_node = self.nodes_by_id[starting_node_index]
+
+        while current_node != goal_node:
+            current_node = current_node.previous
+            path.append(current_node.id)
+        return path[::-1]
