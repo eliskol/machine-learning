@@ -128,3 +128,24 @@ class Graph:
             current_node = current_node.previous
             path.append(current_node.id)
         return path[::-1]
+
+    def cycle_algo(self, current_node_index, starting_node_index, visited=[]):
+        visited.append(current_node_index)
+        if current_node_index in self.children_by_id.keys():
+            for node_index in self.children_by_id[current_node_index]:
+                print(current_node_index)
+                if node_index in visited:
+                    print(node_index)
+                    return True
+                else:
+                    return self.cycle_algo(node_index, starting_node_index, visited)
+        else:
+            return False
+
+    def check_for_cycle(self):
+        for node_index in self.children_by_id:
+            if self.cycle_algo(node_index, node_index) is True:
+                return True
+            else:
+                continue
+        return False
