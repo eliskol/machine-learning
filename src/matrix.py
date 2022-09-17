@@ -344,18 +344,17 @@ class Matrix:
         l_matrix_array = self.create_identity().rows
         u_matrix_array = [[0 for j in range(self.num_cols)] for i in range(self.num_rows)]
 
-        for i in range(1, self.num_rows):
-            for j in range(0, self.num_cols - 1):
+        for j in range(0, self.num_cols - 1):
+            for i in range(1, self.num_rows):
                 if i == j:
+                    continue
+                if mutable_matrix.rows[i][j] == 0:
                     continue
                 scalar = (-1) * (mutable_matrix.rows[i][j] / mutable_matrix.rows[j][j])
                 l_matrix_array[i][j] = (-1) * scalar
                 mutable_matrix.scale_row(j, scalar)
                 mutable_matrix.add_rows(i, j)
                 mutable_matrix.scale_row(j, 1 / scalar)
-
-                mutable_matrix.print()
-                print()
 
         return [Matrix(l_matrix_array), Matrix(mutable_matrix.rows)]
 
@@ -369,7 +368,7 @@ class Matrix:
         return cls(random_matrix_rows)
 
 
-A = Matrix([[3, 1, 2], [-3, -6, 7], [6, -8, 7]])
+A = Matrix([[1, -1, -2], [-2, -1, 5], [0, 3, 4]])
 l, u = A.find_lu_factorization()
 l.print()
 u.print()
