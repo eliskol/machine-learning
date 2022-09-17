@@ -158,6 +158,10 @@ class Matrix:
         for col_index in range(0, self.num_cols):
             self.rows[i][col_index] *= s
 
+    def add_rows(self, row_to_add_to, row_to_add):
+        for j in range(self.num_cols):
+            self.rows[row_to_add_to][j] += self.rows[row_to_add][j]
+
     def clear_above(self, i, j):
         if i != 0:
             # print('clearing above row with index ' + str(i))
@@ -332,6 +336,25 @@ class Matrix:
     def __pow__(self, exponent_to_raise_to):
         return self.exponent(exponent_to_raise_to)
 
+    def find_lu_factorization(self):
+        if self.num_rows != self.num_cols:
+            return "Unable to find LU factorization."
+
+        l_matrix_array = [[0 for j in range(self.num_cols)] for i in range(self.num_rows)]
+        u_matrix_array = [[0 for j in range(self.num_cols)] for i in range(self.num_rows)]
+
+        for i in range(1, self.num_rows):
+            for j in range(0, self.num_cols - 1):
+                if i == j:
+                    continue
+                print(j, self.rows[j][j])
+                l_matrix_array[i][j] = (-1) * (self.rows[i][j] / self.rows[j][j])
+                self.
+                # print(self.rows[i][j])
+
+        for row in l_matrix_array:
+            print(row)
+
     @classmethod
     def random_matrix(cls, num_rows, num_cols, min_value, max_value):
         random_matrix_rows = []
@@ -340,3 +363,8 @@ class Matrix:
             for j in range(0, num_cols):
                 random_matrix_rows[i].append(random.randint(min_value, max_value))
         return cls(random_matrix_rows)
+
+
+A = Matrix([[2, 1, 1], [6, 1, 1], [4, 6, 0]])
+A.print()
+A.find_lu_factorization()
