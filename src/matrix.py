@@ -345,7 +345,7 @@ class Matrix:
         u_matrix_array = [[0 for j in range(self.num_cols)] for i in range(self.num_rows)]
 
         for j in range(0, self.num_cols - 1):
-            for i in range(1, self.num_rows):
+            for i in range(j, self.num_rows):
                 if i == j:
                     continue
                 if mutable_matrix.rows[i][j] == 0:
@@ -368,7 +368,7 @@ class Matrix:
         return cls(random_matrix_rows)
 
 
-A = Matrix([[1, -1, -2], [-2, -1, 5], [0, 3, 4]])
+A = Matrix([[4, 6, -2, -1], [-8, -10, 12, 3], [0, -4, -3, -11], [0, 6, 24, 5]])
 l, u = A.find_lu_factorization()
 l.print()
 u.print()
