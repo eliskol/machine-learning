@@ -337,23 +337,25 @@ class Matrix:
         return self.exponent(exponent_to_raise_to)
 
     def find_lu_factorization(self):
+        mutable_matrix = self.copy()
         if self.num_rows != self.num_cols:
             return "Unable to find LU factorization."
 
-        l_matrix_array = [[0 for j in range(self.num_cols)] for i in range(self.num_rows)]
+        l_matrix_array = self.create_identity().rows
         u_matrix_array = [[0 for j in range(self.num_cols)] for i in range(self.num_rows)]
 
         for i in range(1, self.num_rows):
             for j in range(0, self.num_cols - 1):
                 if i == j:
                     continue
-                print(j, self.rows[j][j])
-                l_matrix_array[i][j] = (-1) * (self.rows[i][j] / self.rows[j][j])
-                self.
-                # print(self.rows[i][j])
+                scalar = (-1) * (mutable_matrix.rows[i][j] / mutable_matrix.rows[j][j])
+                l_matrix_array[i][j] = (-1) * scalar
+                mutable_matrix.scale_row(j, scalar)
+                mutable_matrix.add_rows(i, j)
+                mutable_matrix.scale_row(j, 1 / scalar)
 
-        for row in l_matrix_array:
-            print(row)
+
+        return [Matrix(l_matrix_array), Matrix(mutable_matrix.rows)]
 
     @classmethod
     def random_matrix(cls, num_rows, num_cols, min_value, max_value):
@@ -366,5 +368,6 @@ class Matrix:
 
 
 A = Matrix([[2, 1, 1], [6, 1, 1], [4, 6, 0]])
-A.print()
-A.find_lu_factorization()
+l, u = A.find_lu_factorization()
+l.print()
+u.print()
