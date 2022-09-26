@@ -366,9 +366,3 @@ class Matrix:
             for j in range(0, num_cols):
                 random_matrix_rows[i].append(random.randint(min_value, max_value))
         return cls(random_matrix_rows)
-
-
-A = Matrix([[4, 6, -2, -1], [-8, -10, 12, 3], [0, -4, -3, -11], [0, 6, 24, 5]])
-l, u = A.find_lu_factorization()
-l.print()
-u.print()
