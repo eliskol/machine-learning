@@ -9,8 +9,11 @@ def simplex_method(initial_array):
 
         for i in range(1, simplex_matrix.num_rows):
             row = simplex_matrix.rows[i]
-            constraint = row[-1] / row[index_of_variable_with_largest_slope]
-            if constraint < simplex_matrix.rows[index_of_strictest_constraint_row][-1] / simplex_matrix.rows[index_of_strictest_constraint_row][index_of_variable_with_largest_slope]:
+            current_row_constraint = row[-1] / row[index_of_variable_with_largest_slope]
+
+            strictest_constraint_so_far = simplex_matrix.rows[index_of_strictest_constraint_row][-1] / simplex_matrix.rows[index_of_strictest_constraint_row][index_of_variable_with_largest_slope]
+
+            if current_row_constraint < strictest_constraint_so_far:
                 index_of_strictest_constraint_row = i
 
         simplex_matrix.clear_above(index_of_strictest_constraint_row, index_of_variable_with_largest_slope)
@@ -25,5 +28,3 @@ simplex_test_array = [[1, 2, 1, 0, 0, 0, 0],
                       [2, 5, 5, 0, 0, 1, 30]]
 
 print(simplex_method(simplex_test_array))
-# works
-# make variables to make the code more intuitive
