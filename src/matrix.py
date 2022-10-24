@@ -358,6 +358,9 @@ class Matrix:
 
         return [Matrix(l_matrix_array), Matrix(mutable_matrix.rows)]
 
+    def find_projection_matrix(self):
+        return self @ (self.transpose() @ self).inverse() @ self.transpose()
+
     @classmethod
     def random_matrix(cls, num_rows, num_cols, min_value, max_value):
         random_matrix_rows = []
@@ -366,3 +369,7 @@ class Matrix:
             for j in range(0, num_cols):
                 random_matrix_rows[i].append(random.randint(min_value, max_value))
         return cls(random_matrix_rows)
+
+
+bruh = Matrix([[-5, 1, 6], [-35, 14, 50], [0, 7, 7]])
+bruh.find_lu_factorization()[0].print()
