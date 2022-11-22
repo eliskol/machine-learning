@@ -1,14 +1,16 @@
 class DecisionTree:
 
-    def fit(self, datapoints):
+    def fit(self, datapoints, maximum_depth_constraint, minimum_split_size):
         self.classes = self.find_classes(datapoints)
         self.dimensions = len(datapoints[0]) - 1
         self.datapoints = datapoints
-        self.root_node = TreeNode(self.datapoints)
+        self.root_node = TreeNode(self.datapoints, 1)
         self.split_queue = [self.root_node]
         while len(self.split_queue) > 0:
             current_node_to_split = self.split_queue[0]
             self.split_queue.pop(0)
+            if current_node_to_split.depth == maximum_depth_constraint or len(current_node_to_split.datapoints) <= minimum_split_size:
+                continue
             best_split_parameters = self.find_best_split(current_node_to_split.datapoints)
             if best_split_parameters is None:
                 continue
@@ -96,12 +98,13 @@ class DecisionTree:
 
 
 class TreeNode:
-    def __init__(self, datapoints):
+    def __init__(self, datapoints, depth=None):
         self.datapoints = datapoints
         self.gini_impurity = DecisionTree().compute_gini_impurity(datapoints)
         self.num_of_datapoints = len(datapoints)
         self.left_child, self.right_child = None, None
         self.majority_class = self.find_majority_class()
+        self.depth = depth
 
     def set_split_parameters(self, split_axis, split_point):
         self.split_axis = split_axis
@@ -110,6 +113,8 @@ class TreeNode:
     def set_child_nodes(self, child_nodes):
         self.left_child = child_nodes[0]
         self.right_child = child_nodes[1]
+        self.left_child.depth = self.depth + 1
+        self.right_child.depth = self.depth + 1
 
     def find_majority_class(self):
         class_dict = {}
@@ -134,5 +139,6 @@ data = [['Shortbread', 0.15, 0.2],
         ['Sugar', 0.25, 0.35]]
 
 bruh = DecisionTree()
-bruh.fit(data)
-print(bruh.predict([0.27, 0.35]))
+bruh.fit(data, 3, 100)
+print(bruh.root_node)
+# print(bruh.predict([0.27, 0.35]))
