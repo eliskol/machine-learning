@@ -1,6 +1,6 @@
 class DecisionTree:
 
-    def fit(self, datapoints, maximum_depth_constraint, minimum_split_size):
+    def fit(self, datapoints, maximum_depth_constraint=None, minimum_split_size=None):
         self.classes = self.find_classes(datapoints)
         self.dimensions = len(datapoints[0]) - 1
         self.datapoints = datapoints
@@ -9,7 +9,15 @@ class DecisionTree:
         while len(self.split_queue) > 0:
             current_node_to_split = self.split_queue[0]
             self.split_queue.pop(0)
-            if current_node_to_split.depth == maximum_depth_constraint or len(current_node_to_split.datapoints) <= minimum_split_size:
+            if maximum_depth_constraint is None and minimum_split_size is None:
+                pass
+            elif maximum_depth_constraint is None:
+                if len(current_node_to_split.datapoints) <= minimum_split_size:
+                    continue
+            elif minimum_split_size is None:
+                if current_node_to_split.depth == maximum_depth_constraint:
+                    continue
+            elif current_node_to_split.depth == maximum_depth_constraint or len(current_node_to_split.datapoints) <= minimum_split_size:
                 continue
             best_split_parameters = self.find_best_split(current_node_to_split.datapoints)
             if best_split_parameters is None:
@@ -124,21 +132,4 @@ class TreeNode:
                 class_dict[class_of_datapoint] += 1
             else:
                 class_dict[class_of_datapoint] = 1
-        return max(class_dict)
-
-
-data = [['Shortbread', 0.15, 0.2],
-        ['Shortbread', 0.15, 0.3],
-        ['Shortbread', 0.2, 0.25],
-        ['Shortbread', 0.25, 0.4],
-        ['Shortbread', 0.3, 0.35],
-        ['Sugar', 0.05, 0.25],
-        ['Sugar', 0.05, 0.35],
-        ['Sugar', 0.1, 0.3],
-        ['Sugar', 0.15, 0.4],
-        ['Sugar', 0.25, 0.35]]
-
-bruh = DecisionTree()
-bruh.fit(data, 3, 100)
-print(bruh.root_node)
-# print(bruh.predict([0.27, 0.35]))
+        return max(class_dict, key=class_dict.get)
