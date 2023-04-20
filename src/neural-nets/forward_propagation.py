@@ -18,6 +18,7 @@ x = np.matrix(0)
 y = 0
 
 sigmoid = np.vectorize(lambda x: 1 / (1 + math.e ** -x))
+sigmoid_prime = np.vectorize(lambda x: (math.e ** -x) / (1 + math.e ** -x) ** 2)
 
 
 def propagate_forward(A, b, x, y):
@@ -26,7 +27,19 @@ def propagate_forward(A, b, x, y):
     for i in range(len(A)):
         Sigma.append(A[i] * h[i] + b[i])
         h.append(sigmoid(Sigma[i + 1]))
-    return h
+    return Sigma, h
 
 
-print(propagate_forward(A, b, x, y)[-1])
+def propagate_backward(A: list[np.matrix], b, x, y, Sigma: list[np.matrix], h: list[np.matrix]):
+    dRSS_arr = []
+    dRSS_arr.append(2 * (h[-1] - y))
+    for l, A_l in enumerate(reversed(A[1:])):
+        dRSS_arr.append(A_l.transpose() * (np.multiply(dRSS_arr[-1], sigmoid_prime(Sigma[-l - 1]))))
+    return dRSS_arr[::-1]
+
+
+Sigma, h = propagate_forward(A, b, x, y)
+dRSS_arr = propagate_backward(A, b, x, y, Sigma, h)
+for matrix in dRSS_arr:
+    print(matrix)
+    print()
