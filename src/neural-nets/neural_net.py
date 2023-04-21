@@ -18,7 +18,8 @@ x = np.matrix(0)
 y = 0
 
 sigmoid = np.vectorize(lambda x: 1 / (1 + math.e ** -x))
-sigmoid_prime = np.vectorize(lambda x: (math.e ** -x) / (1 + math.e ** -x) ** 2)
+sigmoid_prime = np.vectorize(lambda x: (
+    math.e ** -x) / (1 + math.e ** -x) ** 2)
 
 
 def propagate_forward(A, b, x, y):
@@ -31,15 +32,24 @@ def propagate_forward(A, b, x, y):
 
 
 def propagate_backward(A: list[np.matrix], b, x, y, Sigma: list[np.matrix], h: list[np.matrix]):
-    dRSS_arr = []
-    dRSS_arr.append(2 * (h[-1] - y))
+    dRSS_dh = []
+    dRSS_dh.append(2 * (h[-1] - y))
     for l, A_l in enumerate(reversed(A[1:])):
-        dRSS_arr.append(A_l.transpose() * (np.multiply(dRSS_arr[-1], sigmoid_prime(Sigma[-l - 1]))))
-    return dRSS_arr[::-1]
+        dRSS_dh.append(A_l.transpose() *
+                       (np.multiply(dRSS_dh[-1], sigmoid_prime(Sigma[-l - 1]))))
+    return dRSS_dh[::-1]
+
+
+def expand_neuron_gradients_to_weight_gradients(dRSS_dh, Sigma, h):
+    dRSS_db = []
+    for l in range(0, len(h) - 1):
+        dRSS_db.append(np.multiply(dRSS_dh[l], sigmoid_prime(Sigma[l + 1])))
+    dRSS_da = []
+    for l in range(0, len(h) - 1):
+        dRSS_da.append(np.matrix(np.outer(dRSS_db[l], h[l])))
+    return dRSS_db, dRSS_da
 
 
 Sigma, h = propagate_forward(A, b, x, y)
-dRSS_arr = propagate_backward(A, b, x, y, Sigma, h)
-for matrix in dRSS_arr:
-    print(matrix)
-    print()
+dRSS_dh = propagate_backward(A, b, x, y, Sigma, h)
+print(expand_neuron_gradients_to_weight_gradients(dRSS_dh, Sigma, h)[1])
