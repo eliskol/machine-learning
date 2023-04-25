@@ -17,10 +17,15 @@ class NeuralNet:
         for [x, y] in datapoints:
             self.Sigma, self.h = self.propagate_forward(self.A, self.b, x, y)
             self.dRSS_dh = self.propagate_backward(self.A, self.b, x, y, self.Sigma, self.h)
-            dRSS_da, dRSS_db = self.expand_neuron_gradients_to_weight_gradients(self.dRSS_dh, self.Sigma, self.h)
+            dRSS_db, dRSS_da = self.expand_neuron_gradients_to_weight_gradients(self.dRSS_dh, self.Sigma, self.h)
             for l in range(len(self.dRSS_da)):
                 self.dRSS_da[l] += dRSS_da[l]
                 self.dRSS_db[l] += dRSS_db[l]
+        for i in range(3):
+            self.descend_gradient_to_new_weights()
+            for point in self.datapoints:
+                print(np.matrix.round(self.propagate_forward(self.A, self.b, point[0], point[1])[1][-1], decimals=3))
+            print()
 
     def propagate_forward(self, A, b, x, y):
         Sigma = [None]
@@ -47,9 +52,10 @@ class NeuralNet:
             dRSS_da.append(np.matrix(np.outer(dRSS_db[l], h[l])))
         return dRSS_db, dRSS_da
 
-    # def descend_gradient_to_new_weights:
-    #     for l, weight_matrix in enumerate(self.A):
-    #         weight_matrix -= self.dRSS
+    def descend_gradient_to_new_weights(self):
+        for l in range(len(self.A)):
+            self.A[l] = self.A[l] - self.learning_rate * self.dRSS_da[l]
+            self.b[l] = self.b[l] - self.learning_rate * self.dRSS_db[l]
 
 A_1 = np.matrix([[5], [-5], [5], [-5]])
 A_2 = np.matrix([[10, 10, 0, 0], [0, 0, 10, 10]])
@@ -68,4 +74,5 @@ datapoints = [[np.matrix(0), 0], [np.matrix(0.25), 1], [np.matrix(0.5), 0.5], [n
 learning_rate = 0.01
 
 bruh = NeuralNet(A, b, datapoints, learning_rate)
-print(bruh.dRSS_da)
+# for weights in bruh.A:
+#     print(weights)
