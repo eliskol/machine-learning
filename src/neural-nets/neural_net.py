@@ -72,23 +72,3 @@ class NeuralNet:
 
     def predict(self, x):
         return self.propagate_forward(self.A, self.b, x, None)[1][-1]
-
-
-A_1 = np.matrix([[5], [-5], [5], [-5]])
-A_2 = np.matrix([[10, 10, 0, 0], [0, 0, 10, 10]])
-A_3 = np.matrix([10, 10])
-A = [A_1, A_2, A_3]
-
-b_1 = np.matrix([[-0.75], [1.75], [-3.25], [4.25]])
-b_2 = np.matrix([[-12.5], [-12.5]])
-b_3 = np.matrix([-2.5])
-b = [b_1, b_2, b_3]
-
-datapoints = [[np.matrix(0), 0], [np.matrix(0.25), 1], [np.matrix(0.5), 0.5], [np.matrix(0.75), 1], [np.matrix(1), 0]]
-learning_rate = 0.01
-
-bruh = NeuralNet(A, b, datapoints, learning_rate)
-bruh.train(100000)
-
-for datapoint in datapoints:
-    print(np.matrix.round(bruh.predict(datapoint[0]), decimals=3))
