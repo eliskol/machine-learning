@@ -45,11 +45,19 @@ def replicate_and_create_child(neural_net):
     new_A_weights = []
     new_b_weights = []
     for A_weights in neural_net.A:
-        new_A_weights.append(
-            A_weights + np.matrix(new_mutation_rate * rng.uniform()))
+        A_l_weights = np.zeros(shape=A_weights.shape)
+        for i in range(A_weights.shape[0]):
+            for j in range(A_weights.shape[1]):
+                A_l_weights[i, j] = A_weights[i, j] + np.matrix(new_mutation_rate * rng.uniform())
+        new_A_weights.append(A_l_weights)
+
     for b_weights in neural_net.b:
-        new_b_weights.append(
-            b_weights + np.matrix(new_mutation_rate * rng.uniform()))
+        b_l_weights = np.zeros(shape=b_weights.shape)
+        for i in range(b_weights.shape[0]):
+            for j in range(b_weights.shape[1]):
+                b_l_weights[i, j] = b_weights[i, j] + np.matrix(new_mutation_rate * rng.uniform())
+        new_b_weights.append(b_l_weights)
+
     child_neural_net = NeuralNet(
         new_A_weights, new_b_weights, activation_functions_and_derivatives, datapoints, 0.01)
     child_neural_net.mutation_rate = new_mutation_rate
@@ -71,16 +79,23 @@ def next_generation(neural_nets):
 
 
 beginning = time.time()
-data = [beginning, 0]
+data = [beginning, 0, sum(neural_net.compute_RSS()
+        for neural_net in neural_nets) / 15]
 
-for i in range(200):
+for i in range(5000):
+    prev_RSS = data[2]
     neural_nets = next_generation(neural_nets)
-    if time.time() - data[0] > 5:
-        print(i + 1, 'completed;', (i - data[1]) / (time.time() - data[0]),
-              'per second in last interval;', (i + 1) / (time.time() - beginning), 'iter/s overall')
-        data = [time.time(), i]
+    if (sum(neural_net.compute_RSS()
+            for neural_net in neural_nets) / 15) - prev_RSS == 0:
+        print('bruh')
+    # if time.time() - data[0] > 5:
+    #     print(i + 1, 'completed;', (i - data[1]) / (time.time() - data[0]),
+    #           'per second in last interval;', (i + 1) / (time.time() - beginning), 'iter/s overall')
+    data = [time.time(), i, sum(neural_net.compute_RSS()
+                                for neural_net in neural_nets) / 15]
     print('avg RSS at generation', i + 1, sum(neural_net.compute_RSS()
-          for neural_net in neural_nets) / 15)
+          for neural_net in neural_nets) / 15, 'change in avg rss:', (sum(neural_net.compute_RSS()
+                                                                          for neural_net in neural_nets) / 15) - prev_RSS)
     print('avg mutation rate', sum(
         neural_net.mutation_rate for neural_net in neural_nets) / 15)
 
