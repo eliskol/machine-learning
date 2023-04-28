@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import math
 import time
-
+from numpy.random import normal as N
 
 rng = np.random.default_rng()
 
@@ -40,7 +40,7 @@ print(sum(neural_net.compute_RSS() for neural_net in neural_nets) / 15)
 
 def replicate_and_create_child(neural_net):
     new_mutation_rate = neural_net.mutation_rate * \
-        math.e ** (rng.uniform() /
+        math.e ** (N(0, 1) /
                    ((2 * neural_net.number_of_weights ** 0.5) ** 0.5))
     new_A_weights = []
     new_b_weights = []
@@ -48,14 +48,14 @@ def replicate_and_create_child(neural_net):
         A_l_weights = np.zeros(shape=A_weights.shape)
         for i in range(A_weights.shape[0]):
             for j in range(A_weights.shape[1]):
-                A_l_weights[i, j] = A_weights[i, j] + np.matrix(new_mutation_rate * rng.uniform())
+                A_l_weights[i, j] = A_weights[i, j] + np.matrix(new_mutation_rate * N(0, 1))
         new_A_weights.append(A_l_weights)
 
     for b_weights in neural_net.b:
         b_l_weights = np.zeros(shape=b_weights.shape)
         for i in range(b_weights.shape[0]):
             for j in range(b_weights.shape[1]):
-                b_l_weights[i, j] = b_weights[i, j] + np.matrix(new_mutation_rate * rng.uniform())
+                b_l_weights[i, j] = b_weights[i, j] + np.matrix(new_mutation_rate * N(0, 1))
         new_b_weights.append(b_l_weights)
 
     child_neural_net = NeuralNet(
@@ -85,9 +85,9 @@ data = [beginning, 0, sum(neural_net.compute_RSS()
 for i in range(5000):
     prev_RSS = data[2]
     neural_nets = next_generation(neural_nets)
-    if (sum(neural_net.compute_RSS()
-            for neural_net in neural_nets) / 15) - prev_RSS == 0:
-        print('bruh')
+    # if (sum(neural_net.compute_RSS()
+    #         for neural_net in neural_nets) / 15) - prev_RSS == 0:
+    #     print('bruh')
     # if time.time() - data[0] > 5:
     #     print(i + 1, 'completed;', (i - data[1]) / (time.time() - data[0]),
     #           'per second in last interval;', (i + 1) / (time.time() - beginning), 'iter/s overall')
