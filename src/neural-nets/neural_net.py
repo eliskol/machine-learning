@@ -15,7 +15,7 @@ class NeuralNet:
 
     def propagate_forward(self, A, b, x, y):
         Sigma = [None]
-        h = [x]
+        h = [np.matrix(x)]
         for i in range(len(A)):
             activation_function = self.activation_functions_and_derivatives[i][0]
             Sigma.append(A[i] * h[i] + b[i])
@@ -27,7 +27,7 @@ class NeuralNet:
         dRSS_dh.append(2 * (h[-1] - y))
         for l, A_l in enumerate(reversed(A[1:])):
             activation_function_derivative = self.activation_functions_and_derivatives[l][1]
-            dRSS_dh.append(A_l.transpose() *
+            dRSS_dh.append(A_l.transpose() @
                         (np.multiply(dRSS_dh[-1], activation_function_derivative(Sigma[-l - 1]))))
         return dRSS_dh[::-1]
 
