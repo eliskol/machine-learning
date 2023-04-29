@@ -1,6 +1,7 @@
 import math
 import numpy as np
 import time
+# refactor this whole thing (lol, lmao)
 
 
 class NeuralNet:
