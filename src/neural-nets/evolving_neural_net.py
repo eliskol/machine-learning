@@ -100,8 +100,8 @@ class EvolvingNeuralNet:
             while self.average_RSS > threshold:
                 self.create_next_generation()
 
-    # todo: add logging
+    # todo: add logging (in progress)
     # todo: add plotting function
-    # todo: add save weights function
+    # todo: add save weights function (pickling)
     #    index weights by the datapoints & nn architecture?
     # todo: be able to configure distributions
