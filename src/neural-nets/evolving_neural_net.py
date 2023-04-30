@@ -94,7 +94,6 @@ class EvolvingNeuralNet:
         return child_neural_net
 
     def create_next_generation(self, log=False):
-        log_data_before = self.log_data
         child_neural_nets = []
         for neural_net in self.neural_nets:
             child_neural_nets.append(self.create_child_net(neural_net))
@@ -114,16 +113,22 @@ class EvolvingNeuralNet:
         self.set_log_data()
 
         if log:
-            print(self.log_data)
+            print('Generation', len(self.log_data["Average RSS"]))
 
             print(
+                "Avg. RSS:",
+                self.log_data["Average RSS"][-1],
+                "; avg. mutation rate:",
+                self.log_data["Average mutation rate"][-1],
+            )
+            print(
                 f"Change in avg. RSS:",
-                self.log_data["Average RSS"] - log_data_before["Average RSS"],
+                self.log_data["Average RSS"][-1] - self.log_data["Average RSS"][-2],
             )
             print(
                 f"Change in avg. mutation rate",
-                self.log_data["Average mutation rate"]
-                - log_data_before["Average mutation rate"],
+                self.log_data["Average mutation rate"][-1]
+                - self.log_data["Average mutation rate"][-2],
             )
 
     def compute_average_RSS(self):
@@ -180,3 +185,26 @@ class EvolvingNeuralNet:
     # todo: add save weights function (pickling)
     #    index weights by the datapoints & nn architecture?
     # todo: be able to configure distributions
+
+
+datapoints = [
+    (0.0, 1.0), (0.04, 0.81), (0.08, 0.52), (0.12, 0.2), (0.17, -0.12),
+    (0.21, -0.38), (0.25, -0.54), (0.29, -0.58), (0.33, -0.51), (0.38, -0.34),
+    (0.42, -0.1), (0.46, 0.16), (0.5, 0.39), (0.54, 0.55), (0.58, 0.61),
+    (0.62, 0.55), (0.67, 0.38), (0.71, 0.12), (0.75, -0.19), (0.79, -0.51),
+    (0.83, -0.77), (0.88, -0.95), (0.92, -1.0), (0.96, -0.91), (1.0, -0.7)
+]
+
+tanh = np.vectorize(lambda x: (math.e ** x - math.e ** -x) / (math.e ** x + math.e ** -x))
+tanh_prime = np.vectorize(lambda x: 4 / ((math.e ** x + math.e ** -x) ** 2))
+
+num_nodes_by_layer = [1, 3, 6, 6, 3, 1] # 3, 6, 3: 991 gens
+num_nets = 10
+activation_functions_and_derivatives = [[tanh, tanh_prime] for _ in range(len(num_nodes_by_layer) - 1)]
+
+evolving_neural_net = EvolvingNeuralNet(num_nodes_by_layer, num_nets, activation_functions_and_derivatives, datapoints, 0.01, 0.5)
+print(evolving_neural_net.average_RSS)
+evolving_neural_net.train(log=True, threshold=0.5)
+print(len(evolving_neural_net.log_data["Average RSS"]))
+
+evolving_neural_net.plot().get_figure().savefig('./bruh.pdf')
