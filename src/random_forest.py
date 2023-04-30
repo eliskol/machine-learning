@@ -3,12 +3,20 @@ import random
 
 
 class RandomForest:
-    def fit(self, num_trees, datapoints, maximum_depth_constraint=None, minimum_split_size=None):
+    def fit(
+        self,
+        num_trees,
+        datapoints,
+        maximum_depth_constraint=None,
+        minimum_split_size=None,
+    ):
         self.trees = []
         for i in range(num_trees):
             random_subset_of_data = random.choices(datapoints, k=num_trees)
             current_tree = DecisionTree()
-            current_tree.fit(random_subset_of_data, maximum_depth_constraint, minimum_split_size)
+            current_tree.fit(
+                random_subset_of_data, maximum_depth_constraint, minimum_split_size
+            )
             self.trees.append(current_tree)
 
     def predict(self, datapoint):

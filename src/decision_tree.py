@@ -1,5 +1,4 @@
 class DecisionTree:
-
     def fit(self, datapoints, maximum_depth_constraint=None, minimum_split_size=None):
         self.classes = self.find_classes(datapoints)
         self.dimensions = len(datapoints[0]) - 1
@@ -17,12 +16,19 @@ class DecisionTree:
             elif minimum_split_size is None:
                 if current_node_to_split.depth == maximum_depth_constraint:
                     continue
-            elif current_node_to_split.depth == maximum_depth_constraint or len(current_node_to_split.datapoints) <= minimum_split_size:
+            elif (
+                current_node_to_split.depth == maximum_depth_constraint
+                or len(current_node_to_split.datapoints) <= minimum_split_size
+            ):
                 continue
-            best_split_parameters = self.find_best_split(current_node_to_split.datapoints)
+            best_split_parameters = self.find_best_split(
+                current_node_to_split.datapoints
+            )
             if best_split_parameters is None:
                 continue
-            current_node_to_split.set_split_parameters(best_split_parameters[0], best_split_parameters[1])
+            current_node_to_split.set_split_parameters(
+                best_split_parameters[0], best_split_parameters[1]
+            )
             current_node_to_split.set_child_nodes(best_split_parameters[2])
             self.split_queue.append(current_node_to_split.left_child)
             self.split_queue.append(current_node_to_split.right_child)
@@ -50,7 +56,7 @@ class DecisionTree:
                 if datapoint_class == data_class:
                     proportion += 1
             proportion = proportion / num_of_datapoints
-            gini_impurity -= proportion ** 2
+            gini_impurity -= proportion**2
         return gini_impurity
 
     @staticmethod
@@ -73,16 +79,30 @@ class DecisionTree:
         for i in range(self.dimensions):
             possible_split_points = self.find_possible_split_points(i + 1, datapoints)
             for possible_split_point in possible_split_points:
-                left_split_points = [datapoint for datapoint in datapoints if datapoint[i + 1] < possible_split_point]
-                right_split_points = [datapoint for datapoint in datapoints if datapoint[i + 1] > possible_split_point]
+                left_split_points = [
+                    datapoint
+                    for datapoint in datapoints
+                    if datapoint[i + 1] < possible_split_point
+                ]
+                right_split_points = [
+                    datapoint
+                    for datapoint in datapoints
+                    if datapoint[i + 1] > possible_split_point
+                ]
 
                 left_node = TreeNode(left_split_points)
                 right_node = TreeNode(right_split_points)
 
-                weighted_impurity_of_left_node = (left_node.num_of_datapoints / num_of_datapoints) * left_node.gini_impurity
-                weighted_impurity_of_right_node = (right_node.num_of_datapoints / num_of_datapoints) * right_node.gini_impurity
+                weighted_impurity_of_left_node = (
+                    left_node.num_of_datapoints / num_of_datapoints
+                ) * left_node.gini_impurity
+                weighted_impurity_of_right_node = (
+                    right_node.num_of_datapoints / num_of_datapoints
+                ) * right_node.gini_impurity
 
-                decrease_in_impurity = initial_impurity - (weighted_impurity_of_left_node + weighted_impurity_of_right_node)
+                decrease_in_impurity = initial_impurity - (
+                    weighted_impurity_of_left_node + weighted_impurity_of_right_node
+                )
 
                 if decrease_in_impurity > highest_decrease_in_impurity:
                     best_split_axis = i + 1
@@ -99,9 +119,18 @@ class DecisionTree:
         for i in range(len(sorted_datapoints) - 1):
             current_datapoint_value_on_split_axis = sorted_datapoints[i][split_axis]
             next_datapoint_value_on_split_axis = sorted_datapoints[i + 1][split_axis]
-            if current_datapoint_value_on_split_axis != next_datapoint_value_on_split_axis:
+            if (
+                current_datapoint_value_on_split_axis
+                != next_datapoint_value_on_split_axis
+            ):
                 # fix these two lines; add intermediate variable
-                possible_split_points.append((current_datapoint_value_on_split_axis + next_datapoint_value_on_split_axis) / 2)
+                possible_split_points.append(
+                    (
+                        current_datapoint_value_on_split_axis
+                        + next_datapoint_value_on_split_axis
+                    )
+                    / 2
+                )
         return possible_split_points
 
 

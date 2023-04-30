@@ -5,7 +5,6 @@ from node import Node
 
 class Graph:
     def __init__(self, edges):
-
         self.children_by_id = {edge[0]: [] for edge in edges}
 
         self.parents_by_id = {edge[1]: [] for edge in edges}
@@ -36,7 +35,6 @@ class Graph:
         order = []
 
         while queue.contents != []:
-
             dequeued_node = queue.dequeue()
             order.append(dequeued_node)
             visited[dequeued_node] = True
@@ -60,7 +58,6 @@ class Graph:
         order = []
 
         while stack.contents != []:
-
             top_element = stack.pop()
             order.append(top_element)
             visited[top_element] = True
@@ -79,13 +76,11 @@ class Graph:
         return order
 
     def set_distance_and_previous(self, start_index):
-
         queue = Queue([start_index])
         visited = {}
         order = []
 
         while queue.contents != []:
-
             dequeued_node = queue.dequeue()
             order.append(dequeued_node)
             visited[dequeued_node] = True

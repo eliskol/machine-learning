@@ -2,7 +2,7 @@ def drss_da(a, b, c, dataset):
     total = 0
     for point in dataset:
         x, y = point[0], point[1]
-        total += 2 * (x ** 2) * (a * (x ** 2) + b * x + c - y)
+        total += 2 * (x**2) * (a * (x**2) + b * x + c - y)
     return total
 
 
@@ -10,7 +10,7 @@ def drss_db(a, b, c, dataset):
     total = 0
     for point in dataset:
         x, y = point[0], point[1]
-        total += 2 * x * (a * (x ** 2) + b * x + c - y)
+        total += 2 * x * (a * (x**2) + b * x + c - y)
     return total
 
 
@@ -18,7 +18,7 @@ def drss_dc(a, b, c, dataset):
     total = 0
     for point in dataset:
         x, y = point[0], point[1]
-        total += 2 * (a * (x ** 2) + b * x + c - y)
+        total += 2 * (a * (x**2) + b * x + c - y)
     return total
 
 
@@ -26,7 +26,7 @@ def rss(a, b, c, dataset):
     total = 0
     for point in dataset:
         x, y = point[0], point[1]
-        total += (a * (x ** 2) + b * x + c - y) ** 2
+        total += (a * (x**2) + b * x + c - y) ** 2
     return total
 
 

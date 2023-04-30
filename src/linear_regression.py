@@ -3,9 +3,7 @@ from helper import put_last_entry_first
 
 
 class LinearRegressor:
-
     def fit(self, data, interaction_terms=None):
-
         self.coefficients = {}
         self.num_interaction_terms = 0
 
@@ -14,21 +12,17 @@ class LinearRegressor:
 
         coefficient_matrix_rows = []
         for point in data:
-
             row_to_append = point[:-1]
             row_to_append.append(1)
             coefficient_matrix_rows.append(row_to_append)
 
         if interaction_terms is not None:
-
             self.num_interaction_terms = len(interaction_terms)
 
             for interaction_term in interaction_terms:
-
                 self.coefficients[interaction_term] = None
 
                 for i in range(0, len(y_matrix.rows)):
-
                     interaction_term_to_append = 1
 
                     for term in interaction_term:
@@ -42,10 +36,13 @@ class LinearRegressor:
         # coefficient_matrix.print()
         # print('\n')
         transpose_times_y = coefficient_matrix.transpose().matrix_multiply(y_matrix)
-        transpose_times_coefficients = coefficient_matrix.transpose(
-        ).matrix_multiply(coefficient_matrix)
+        transpose_times_coefficients = coefficient_matrix.transpose().matrix_multiply(
+            coefficient_matrix
+        )
         # transpose_times_coefficients.print()
-        m_and_b_matrix = transpose_times_coefficients.inverse().matrix_multiply(transpose_times_y)
+        m_and_b_matrix = transpose_times_coefficients.inverse().matrix_multiply(
+            transpose_times_y
+        )
 
         coefficient_first_list = put_last_entry_first(m_and_b_matrix.rows)
 
@@ -59,7 +56,9 @@ class LinearRegressor:
     def predict(self, point_to_predict_at):
         if self.coefficients is None:
             return "no dtata to fit"
-        if len(point_to_predict_at) != len(self.coefficients) - (self.num_interaction_terms + 1):
+        if len(point_to_predict_at) != len(self.coefficients) - (
+            self.num_interaction_terms + 1
+        ):
             return ":cursed:"
         answer = 0
         # for i in range(0, len(point_to_predict_at)):

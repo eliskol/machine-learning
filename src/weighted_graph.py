@@ -38,7 +38,6 @@ class WeightedGraph:
         order = []
 
         while queue.contents != []:
-
             dequeued_node = queue.dequeue()
             order.append(dequeued_node)
             visited[dequeued_node] = True
@@ -62,7 +61,6 @@ class WeightedGraph:
         order = []
 
         while stack.contents != []:
-
             top_element = stack.pop()
             order.append(top_element)
             visited[top_element] = True
@@ -80,13 +78,11 @@ class WeightedGraph:
 
         return order
 
-
         queue = Queue([start_index])
         visited = {}
         order = []
 
         while queue.contents != []:
-
             dequeued_node = queue.dequeue()
             order.append(dequeued_node)
             visited[dequeued_node] = True
@@ -128,11 +124,15 @@ class WeightedGraph:
                 child_node_obj = self.nodes_by_id[child]
                 edge = (current_node, child)
                 child_node_obj.distance = min(
-                    child_node_obj.distance, current_node_obj.distance + self.weights[edge])
+                    child_node_obj.distance,
+                    current_node_obj.distance + self.weights[edge],
+                )
                 # print(child_node_obj.distance, child)
                 nodes_with_set_distance[child] = child_node_obj.distance
 
-            closest_node_to_start = min(nodes_with_set_distance, key=nodes_with_set_distance.get)
+            closest_node_to_start = min(
+                nodes_with_set_distance, key=nodes_with_set_distance.get
+            )
 
             current_node = closest_node_to_start
 
@@ -151,4 +151,6 @@ class WeightedGraph:
     def calc_shortest_path(self, starting_node_index, ending_node_index):
         self.calc_distance(starting_node_index, ending_node_index)
         shortest_path_graph = self.generate_shortest_path_graph()
-        return shortest_path_graph.calc_shortest_path(starting_node_index, ending_node_index)
+        return shortest_path_graph.calc_shortest_path(
+            starting_node_index, ending_node_index
+        )

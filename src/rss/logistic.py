@@ -5,7 +5,9 @@ def drss_da(a, b, dataset):
     total = 0
     for point in dataset:
         x, y = point[0], point[1]
-        total += (-2 * x * (e ** (a * x + b))) / ((1 + (e ** (a * x + b))) ** 3) + (2 * x * y * e ** (a * x + b)) / ((1 + e ** (a * x + b)) ** 2)
+        total += (-2 * x * (e ** (a * x + b))) / ((1 + (e ** (a * x + b))) ** 3) + (
+            2 * x * y * e ** (a * x + b)
+        ) / ((1 + e ** (a * x + b)) ** 2)
     return total
 
 
@@ -13,7 +15,9 @@ def drss_db(a, b, dataset):
     total = 0
     for point in dataset:
         x, y = point[0], point[1]
-        total += (-2 * (e ** (a * x + b))) / ((1 + (e ** (a * x + b))) ** 3) + (2 * y * e ** (a * x + b)) / ((1 + e ** (a * x + b)) ** 2)
+        total += (-2 * (e ** (a * x + b))) / ((1 + (e ** (a * x + b))) ** 3) + (
+            2 * y * e ** (a * x + b)
+        ) / ((1 + e ** (a * x + b)) ** 2)
     return total
 
 

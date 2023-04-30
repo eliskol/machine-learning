@@ -1,8 +1,20 @@
 import sys
+
 sys.path.insert(1, "/workspace/machine-learning/src/")
 
 from linear_regression import LinearRegressor
-pain = [[0, 0, 1], [1, 0, 2], [2, 0, 4], [4, 0, 8], [6, 0, 9], [0, 2, 2], [0, 4, 5], [0, 6, 7], [0, 8, 6]]
+
+pain = [
+    [0, 0, 1],
+    [1, 0, 2],
+    [2, 0, 4],
+    [4, 0, 8],
+    [6, 0, 9],
+    [0, 2, 2],
+    [0, 4, 5],
+    [0, 6, 7],
+    [0, 8, 6],
+]
 bruh = LinearRegressor()
 bruh.fit(pain)
 print(bruh.coefficients)

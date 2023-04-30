@@ -1,7 +1,5 @@
 class DataFrame:
-
     def __init__(self, data_dict, column_order):
-
         self.data_dict = data_dict
         self.column_order = column_order
         self.num_cols = len(column_order)
@@ -17,7 +15,6 @@ class DataFrame:
         return self.data_array
 
     def select_columns(self, columns_to_select):
-
         columns_to_return = {}
 
         for column in columns_to_select:
@@ -46,7 +43,10 @@ class DataFrame:
     def order_by(self, column_to_order_by, ascending):
         print(self.data_array)
         sorted_data = self.simple_sort_data(
-            self.data_array, self.column_order.index(column_to_order_by), ascending=ascending)
+            self.data_array,
+            self.column_order.index(column_to_order_by),
+            ascending=ascending,
+        )
         return DataFrame.from_array(sorted_data, column_order=self.column_order)
 
     def to_json(self):
@@ -65,25 +65,19 @@ class DataFrame:
         return cls(data_dict, column_order=column_order)
 
     def find_index_of_min(self, arr, index):
-
         min_row = arr[0]
 
         for row in arr:
-
             if row[index] < min_row[index]:
-
                 min_row = row
 
         return arr.index(min_row)
 
     def find_index_of_max(self, arr, index):
-
         max_row = arr[0]
 
         for row in arr:
-
             if row[index] > max_row[index]:
-
                 max_row = row
 
         return arr.index(max_row)
@@ -91,17 +85,18 @@ class DataFrame:
     def simple_sort_data(self, data_to_sort, index_to_sort_by, ascending):
         output_data = []
         if ascending:
-
             for row in data_to_sort.copy():
-
-                index_of_next_lowest = self.find_index_of_min(data_to_sort, index_to_sort_by)
+                index_of_next_lowest = self.find_index_of_min(
+                    data_to_sort, index_to_sort_by
+                )
                 output_data.append(data_to_sort[index_of_next_lowest])
                 data_to_sort.pop(index_of_next_lowest)
 
         else:
             for row in data_to_sort.copy():
-
-                index_of_next_highest = self.find_index_of_max(data_to_sort, index_to_sort_by)
+                index_of_next_highest = self.find_index_of_max(
+                    data_to_sort, index_to_sort_by
+                )
                 output_data.append(data_to_sort[index_of_next_highest])
                 data_to_sort.pop(index_of_next_highest)
 

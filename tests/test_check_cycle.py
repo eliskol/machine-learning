@@ -1,5 +1,6 @@
 import sys
-sys.path.insert(1, sys.path[0].replace('tests', 'src'))
+
+sys.path.insert(1, sys.path[0].replace("tests", "src"))
 
 from graph import Graph
 
