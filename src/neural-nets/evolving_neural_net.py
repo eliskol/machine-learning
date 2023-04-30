@@ -177,8 +177,6 @@ class EvolvingNeuralNet:
                 self.create_next_generation(log)
 
     # todo: add logging (in progress)
-    # todo: add plotting function
     # todo: add save weights function (pickling)
     #    index weights by the datapoints & nn architecture?
     # todo: be able to configure distributions
-    # todo: clean up intro_neurevolution.ipynb
