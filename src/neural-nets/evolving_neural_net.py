@@ -1,4 +1,5 @@
 import math
+import matplotlib
 import numpy as np
 import pandas as pd
 from neural_net import NeuralNet
@@ -113,7 +114,11 @@ class EvolvingNeuralNet:
         self.set_log_data()
 
         if log:
-            print('Generation', len(self.log_data["Average RSS"]))
+            fig = evolving_neural_net.plot().get_figure()
+            fig.savefig(f'./temp/net{len(self.log_data["Average RSS"]) - 1}.png')
+            matplotlib.pyplot.close()
+
+            print("Generation", len(self.log_data["Average RSS"]))
 
             print(
                 "Avg. RSS:",
@@ -158,17 +163,22 @@ class EvolvingNeuralNet:
         neural_net_df = pd.DataFrame(
             [
                 [
-                    x / (1000 * max_input),
+                    x / (100 * max_input),
                     *[
-                        float(neural_net.predict(np.matrix(x / (1000 * max_input))))
+                        float(neural_net.predict(np.matrix(x / (100 * max_input))))
                         for neural_net in self.neural_nets
                     ],
                 ]
-                for x in range(1000 * max_input)
+                for x in range(100 * max_input)
             ]
         )
         datapoint_df = pd.DataFrame(self.datapoints)
-        datapoint_plot = datapoint_df.plot(x=0, y=1, kind="scatter")
+        datapoint_plot = datapoint_df.plot(
+            x=0,
+            y=1,
+            kind="scatter",
+            title=f'Generation {len(self.log_data["Average RSS"]) - 1}',
+        )
         for i in range(self.num_nets):
             datapoint_plot = neural_net_df.plot(ax=datapoint_plot, x=0, y=i + 1)
         return datapoint_plot
@@ -188,23 +198,62 @@ class EvolvingNeuralNet:
 
 
 datapoints = [
-    (0.0, 1.0), (0.04, 0.81), (0.08, 0.52), (0.12, 0.2), (0.17, -0.12),
-    (0.21, -0.38), (0.25, -0.54), (0.29, -0.58), (0.33, -0.51), (0.38, -0.34),
-    (0.42, -0.1), (0.46, 0.16), (0.5, 0.39), (0.54, 0.55), (0.58, 0.61),
-    (0.62, 0.55), (0.67, 0.38), (0.71, 0.12), (0.75, -0.19), (0.79, -0.51),
-    (0.83, -0.77), (0.88, -0.95), (0.92, -1.0), (0.96, -0.91), (1.0, -0.7)
+    (0.0, 1.0),
+    (0.04, 0.81),
+    (0.08, 0.52),
+    (0.12, 0.2),
+    (0.17, -0.12),
+    (0.21, -0.38),
+    (0.25, -0.54),
+    (0.29, -0.58),
+    (0.33, -0.51),
+    (0.38, -0.34),
+    (0.42, -0.1),
+    (0.46, 0.16),
+    (0.5, 0.39),
+    (0.54, 0.55),
+    (0.58, 0.61),
+    (0.62, 0.55),
+    (0.67, 0.38),
+    (0.71, 0.12),
+    (0.75, -0.19),
+    (0.79, -0.51),
+    (0.83, -0.77),
+    (0.88, -0.95),
+    (0.92, -1.0),
+    (0.96, -0.91),
+    (1.0, -0.7),
 ]
 
-tanh = np.vectorize(lambda x: (math.e ** x - math.e ** -x) / (math.e ** x + math.e ** -x))
-tanh_prime = np.vectorize(lambda x: 4 / ((math.e ** x + math.e ** -x) ** 2))
+tanh = np.vectorize(
+    lambda x: (math.e**x - math.e**-x) / (math.e**x + math.e**-x)
+)
+tanh_prime = np.vectorize(lambda x: 4 / ((math.e**x + math.e**-x) ** 2))
 
-num_nodes_by_layer = [1, 3, 6, 6, 3, 1] # 3, 6, 3: 991 gens
+num_nodes_by_layer = [1, 3, 6, 3, 1]  # 3, 6, 3: 991 gens; 3, 6, 6, 3 is rlly good
 num_nets = 10
-activation_functions_and_derivatives = [[tanh, tanh_prime] for _ in range(len(num_nodes_by_layer) - 1)]
+activation_functions_and_derivatives = [
+    [tanh, tanh_prime] for _ in range(len(num_nodes_by_layer) - 1)
+]
 
-evolving_neural_net = EvolvingNeuralNet(num_nodes_by_layer, num_nets, activation_functions_and_derivatives, datapoints, 0.01, 0.5)
+evolving_neural_net = EvolvingNeuralNet(
+    num_nodes_by_layer,
+    num_nets,
+    activation_functions_and_derivatives,
+    datapoints,
+    0.01,
+    0.5,
+)
 print(evolving_neural_net.average_RSS)
-evolving_neural_net.train(log=True, threshold=0.5)
+evolving_neural_net.train(iterations=1000, log=True, threshold=0.1)
 print(len(evolving_neural_net.log_data["Average RSS"]))
 
-evolving_neural_net.plot().get_figure().savefig('./bruh.pdf')
+
+import imageio
+
+images = []
+filenames = [f"./temp/net{i}.png" for i in range(1, 750)]
+for filename in filenames:
+    images.append(imageio.v2.imread(filename))
+
+imageio.v2.mimsave("3-6-3-750.gif", images)
