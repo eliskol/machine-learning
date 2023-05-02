@@ -20,6 +20,7 @@ class NeuralNet:
         # should be [[activation func for 1st layer, derivative], [2nd layer, derivative], .. etc]; currently can't do diff activation functions for diff neurons on same layer
         self.datapoints = datapoints
         self.learning_rate = learning_rate
+        self.mutation_rate = None
         self.number_of_weights = sum(
             [matrix.shape[0] * matrix.shape[1] for matrix in self.A]
         ) + sum([matrix.shape[0] * matrix.shape[1] for matrix in self.b])
