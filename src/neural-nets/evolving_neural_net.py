@@ -117,11 +117,12 @@ class EvolvingNeuralNet:
         self.set_log_data()
 
         if self.log:
-            fig = self.plot().get_figure()
-            fig.savefig(f'./temp/net{self.generations}.png')
-            matplotlib.pyplot.close()
+            if self.save_plots:
+                fig = self.plot().get_figure()
+                fig.savefig(f'./temp/net{self.generations}.png')
+                matplotlib.pyplot.close()
 
-            print("Generation", len(self.generations))
+            print("Generation", self.generations)
 
             print(
                 "Avg. RSS:",
@@ -186,8 +187,9 @@ class EvolvingNeuralNet:
             datapoint_plot = neural_net_df.plot(ax=datapoint_plot, x=0, y=i + 1)
         return datapoint_plot
 
-    def train(self, iterations=None, auto=True, threshold=0.15, log=False):
+    def train(self, iterations=None, auto=True, threshold=0.15, log=False, save_plots=False):
         self.log = log
+        self.save_plots = save_plots
         if iterations is not None:
             for i in range(iterations):
                 self.create_next_generation()
@@ -195,7 +197,6 @@ class EvolvingNeuralNet:
             while self.average_RSS > threshold:
                 self.create_next_generation()
 
-    # todo: add logging (in progress)
     # todo: add save weights function (pickling)
     #    index weights by the datapoints & nn architecture?
     # todo: be able to configure distributions
