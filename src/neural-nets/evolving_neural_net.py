@@ -116,11 +116,12 @@ class EvolvingNeuralNet:
 
         self.set_log_data()
 
+        if self.save_plots:
+            fig = self.plot().get_figure()
+            fig.savefig(f'./temp/net{self.generations}.png')
+            matplotlib.pyplot.close()
+
         if self.log:
-            if self.save_plots:
-                fig = self.plot().get_figure()
-                fig.savefig(f'./temp/net{self.generations}.png')
-                matplotlib.pyplot.close()
 
             print("Generation", self.generations)
 
