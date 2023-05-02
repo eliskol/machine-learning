@@ -34,6 +34,7 @@ class EvolvingNeuralNet:
         self.datapoints = datapoints
         self.learning_rate = learning_rate
         self.initial_mutation_rate = initial_mutation_rate
+        self.generations = 0
 
         self.neural_nets = []
 
@@ -94,7 +95,7 @@ class EvolvingNeuralNet:
         child_neural_net.mutation_rate = new_mutation_rate
         return child_neural_net
 
-    def create_next_generation(self, log=False):
+    def create_next_generation(self):
         child_neural_nets = []
         for neural_net in self.neural_nets:
             child_neural_nets.append(self.create_child_net(neural_net))
@@ -108,17 +109,19 @@ class EvolvingNeuralNet:
             ].compute_RSS() == max(neural_net_RSS_list)
             del self.neural_nets[neural_net_RSS_list.index(max(neural_net_RSS_list))]
 
+        self.generations += 1
+
         self.average_RSS = self.compute_average_RSS()
         self.average_mutation_rate = self.compute_average_mutation_rate()
 
         self.set_log_data()
 
-        if log:
-            fig = evolving_neural_net.plot().get_figure()
-            fig.savefig(f'./temp/net{len(self.log_data["Average RSS"]) - 1}.png')
+        if self.log:
+            fig = self.plot().get_figure()
+            fig.savefig(f'./temp/net{self.generations}.png')
             matplotlib.pyplot.close()
 
-            print("Generation", len(self.log_data["Average RSS"]))
+            print("Generation", len(self.generations))
 
             print(
                 "Avg. RSS:",
@@ -184,12 +187,13 @@ class EvolvingNeuralNet:
         return datapoint_plot
 
     def train(self, iterations=None, auto=True, threshold=0.15, log=False):
+        self.log = log
         if iterations is not None:
             for i in range(iterations):
-                self.create_next_generation(log)
+                self.create_next_generation()
         elif auto:
             while self.average_RSS > threshold:
-                self.create_next_generation(log)
+                self.create_next_generation()
 
     # todo: add logging (in progress)
     # todo: add save weights function (pickling)
