@@ -12,6 +12,7 @@ class EvolvingNeuralNet:
     def __init__(
         self,
         num_nodes_by_layer,
+        bounds=[-0.2, 0.2],
         num_nets,
         activation_functions_and_derivatives,
         datapoints,
@@ -22,14 +23,6 @@ class EvolvingNeuralNet:
         this will have 1 bias node on every layer"""
         self.num_nodes_by_layer = num_nodes_by_layer
         self.num_nets = num_nets
-        self.A_weight_matrix_shapes = [
-            (self.num_nodes_by_layer[i + 1], self.num_nodes_by_layer[i])
-            for i in range(len(self.num_nodes_by_layer) - 1)
-        ]
-        self.b_weight_matrix_shapes = [
-            (self.num_nodes_by_layer[i + 1], 1)
-            for i in range(len(self.num_nodes_by_layer) - 1)
-        ]
         self.activation_functions_and_derivatives = activation_functions_and_derivatives
         self.datapoints = datapoints
         self.learning_rate = learning_rate
@@ -39,16 +32,10 @@ class EvolvingNeuralNet:
         self.neural_nets = []
 
         for i in range(num_nets):
-            A = []
-            b = []
-            for shape in self.A_weight_matrix_shapes:
-                A.append(np.matrix(rng.uniform(low=-0.2, high=0.2, size=shape)))
-            for shape in self.b_weight_matrix_shapes:
-                b.append(np.matrix(rng.uniform(low=-0.2, high=0.2, size=shape)))
             self.neural_nets.append(
-                NeuralNet(
-                    A,
-                    b,
+                NeuralNet.random(
+                    self.num_nodes_by_layer,
+                    bounds,
                     self.activation_functions_and_derivatives,
                     self.datapoints,
                     self.learning_rate,
@@ -118,11 +105,10 @@ class EvolvingNeuralNet:
 
         if self.save_plots:
             fig = self.plot().get_figure()
-            fig.savefig(f'./temp/net{self.generations}.png')
+            fig.savefig(f"./temp/net{self.generations}.png")
             matplotlib.pyplot.close()
 
         if self.log:
-
             print("Generation", self.generations)
 
             print(
@@ -188,7 +174,9 @@ class EvolvingNeuralNet:
             datapoint_plot = neural_net_df.plot(ax=datapoint_plot, x=0, y=i + 1)
         return datapoint_plot
 
-    def train(self, iterations=None, auto=True, threshold=0.15, log=False, save_plots=False):
+    def train(
+        self, iterations=None, auto=True, threshold=0.15, log=False, save_plots=False
+    ):
         self.log = log
         self.save_plots = save_plots
         if iterations is not None:
