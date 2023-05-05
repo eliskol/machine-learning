@@ -1,6 +1,6 @@
+import time
 import math
 import numpy as np
-import time
 
 # refactor this whole thing (lol, lmao)
 
@@ -24,6 +24,36 @@ class NeuralNet:
         self.number_of_weights = sum(
             [matrix.shape[0] * matrix.shape[1] for matrix in self.A]
         ) + sum([matrix.shape[0] * matrix.shape[1] for matrix in self.b])
+
+    @classmethod
+    def random(
+        cls,
+        num_nodes_by_layer,
+        bounds,
+        activation_functions_and_derivatives,
+        datapoints,
+        learning_rate,
+    ):
+        rng = np.random.default_rng()
+
+        A_weight_matrix_shapes = [
+            (num_nodes_by_layer[i + 1], num_nodes_by_layer[i])
+            for i in range(len(num_nodes_by_layer) - 1)
+        ]
+        b_weight_matrix_shapes = [
+            (num_nodes_by_layer[i + 1], 1) for i in range(len(num_nodes_by_layer) - 1)
+        ]
+
+        A = []
+        b = []
+        for shape in A_weight_matrix_shapes:
+            A.append(np.matrix(rng.uniform(low=bounds[0], high=bounds[1], size=shape)))
+        for shape in b_weight_matrix_shapes:
+            b.append(np.matrix(rng.uniform(low=bounds[0], high=bounds[1], size=shape)))
+
+        return cls(
+            A, b, activation_functions_and_derivatives, datapoints, learning_rate
+        )
 
     def propagate_forward(self, A, b, x, y):
         Sigma = [None]
